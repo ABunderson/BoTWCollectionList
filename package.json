@@ -1,0 +1,26 @@
+{
+  "name": "botwcollectionlist",
+  "version": "1.0.0",
+  "description": "A site that helps users create a list of collectables for BoTW",
+  "main": "index.js",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build --emptyOutDir",
+    "preview": "vite preview",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ABunderson/BoTWCollectionList.git"
+  },
+  "author": "Adrienne Bunderson",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.2.2",
+    "vite": "^4.1.4"
+  },
+  "bugs": {
+    "url": "https://github.com/ABunderson/BoTWCollectionList/issues"
+  },
+  "homepage": "https://github.com/ABunderson/BoTWCollectionList#readme"
+}
