@@ -1,5 +1,7 @@
+import { setImages } from "./home.mjs";
 
-
-function getRanImage() {
-    
-}
+setImages('monster-image', 'monsters');
+setImages('creature-image', 'creatures')
+setImages('equipment-image', 'equipment')
+setImages('material-image', 'materials')
+setImages('treasure-image', 'treasure')
