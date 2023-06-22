@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BoTW Collection | Home</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/small.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/css/medium.css" media="(min-width: 600px)">
+    <link rel="stylesheet" type="text/css" href="/css/large.css" media="(min-width: 890px)">
+    <!-- <link rel="stylesheet" href="/css/style.css" /> -->
     <script src="/js/home.js" type="module"></script>
 </head>
 
@@ -18,6 +21,16 @@
             <a href="/index.html">
                 <h1>BoTW Collection</h1>
             </a>
+            <input type="checkbox" id="menu" name="menu" class="menu-checkbox" checked>
+            <div class="menu">
+                <label class="menu-toggle" for="menu" id="hamburger"><img src="/images/hamburger.png"
+                        alt="A hamburger menu. Icon from icons8"></label>
+                <ul>
+                    <li><a href="#">link 1</a></li>
+                    <li><a href="#">link 2</a></li>
+                    <li><a href="#">link 3</a></li>
+                </ul>
+            </div>
         </div>
         <div id="header-end">
             <div class="dropdown">
@@ -67,48 +80,61 @@
                 It also has the full Hyrule Compendium if you are missing an item and want to know what it is and the
                 general location to find it in.
             </p>
-            <section class="card-grid">
-                <a class="card" href="#">
-                    <img id="creature-image">
-                    <h3>Creatures</h3>
-                </a>
-                <a class="card" href="#">
-                    <img id="equipment-image">
-                    <h3>Equipment</h3>
-                </a>
-                <a class="card" href="#">
-                    <img id="material-image">
-                    <h3>Materials</h3>
-                </a>
-                <a class="card" href="#">
-                    <img id="monster-image">
-                    <h3>Monsters</h3>
-                </a>
-                <a class="card" href="#">
-                    <img id="treasure-image">
-                    <h3>Treasure</h3>
-                </a>
-            </section>
+            <ul class="card-list">
+                <li>
+                    <a class="card" href="#">
+                        <img id="creature-image">
+                        <h3>Creatures</h3>
+                    </a>
+                </li>
+                <li>
+                    <a class="card" href="#">
+                        <img id="equipment-image">
+                        <h3>Equipment</h3>
+                    </a>
+                </li>
+                <li>
+                    <a class="card" href="#">
+                        <img id="material-image">
+                        <h3>Materials</h3>
+                    </a>
+                </li>
+                <li>
+                    <a class="card" href="#">
+                        <img id="monster-image">
+                        <h3>Monsters</h3>
+                    </a>
+                </li>
+                <li>
+                    <a class="card" href="#">
+                        <img id="treasure-image">
+                        <h3>Treasure</h3>
+                    </a>
+                </li>
+            </ul>
         </div>
     </main>
     <footer>
         <div id="footer-flex">
             <div>
-            <p>
-                &copy;2023 BoTW Collection
-            </p>
-            <p>
-                School Project by Adrienne Bunderson
-            </p>
+                <p>
+                    &copy;2023 BoTW Collection
+                </p>
+                <p>
+                    School Project by Adrienne Bunderson
+                </p>
             </div>
             <div>
-            <p>
-                <a href="https://github.com/gadhagod/Hyrule-Compendium-API">Hyrule Compendium API</a> created by <a
-                    href="https://github.com/gadhagod">@gadhagod</a>
-            </p>
-            <p>
-                <a href="https://www.flaticon.com/free-icons/scroll" title="scroll icons">Scroll icons created by Freepik - Flaticon</a>
-            </p>
+                <p>
+                    <a href="https://github.com/gadhagod/Hyrule-Compendium-API">Hyrule Compendium API</a> created by <a
+                        href="https://github.com/gadhagod">@gadhagod</a>
+                    <br>
+                    <a href="https://www.flaticon.com/free-icons/scroll" title="scroll icons">Scroll icons created by
+                        Freepik - Flaticon</a>
+                    <br>
+                    <a target="_blank" href="https://icons8.com/icon/36389/menu-rounded">Hamburger Menu</a> icon by <a
+                        target="_blank" href="https://icons8.com">Icons8</a>
+                </p>
             </div>
         </div>
     </footer>

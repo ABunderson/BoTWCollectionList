@@ -1,0 +1,109 @@
+/* Header rules */
+
+/* get rid of hamburger menu */
+
+.menu {
+    display: none;
+}
+
+/* get back everything else */
+
+#header-end {
+    display: block;
+    display: flex;
+    align-items: center;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#scroll {
+    width: 3.5em;
+    height: 3.5em;
+    padding: .25em;
+}
+
+/* Search bar */
+
+#search {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+}
+
+#search input {
+    height: 30px;
+    padding: 0 0 0 5px;
+    margin-top: 0;
+    border: 2px solid var(--eerie-black);
+    border-right: none;
+    margin-left: 5px;
+    max-width: 100px;
+}
+
+#search button {
+    height: 30px;
+    background: var(--green);
+    margin-top: 0;
+    border: 2px solid var(--eerie-black);
+    min-width: 35px;
+}
+
+#search button img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: 0 auto;
+    filter: invert(1);
+}
+
+/* Drop down list */
+
+.dropdown .dropbtn {
+    font-size: 1.5em;
+    outline: none;
+    border: 2px solid var(--blue);
+    padding: 5px;
+    background-color: inherit;
+    margin: 0;
+}
+.dropdown:hover .dropbtn {
+    background-color: var(--green);
+    border: 2px solid var(--gold);
+    color: white;
+}
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+/* Links inside the dropdown */
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: var(--gray);
+}
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Footer */
+#footer-flex{
+    display: flex;
+    justify-content: space-between;
+}
