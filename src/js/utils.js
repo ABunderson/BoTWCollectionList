@@ -19,3 +19,17 @@ export async function getRanItemByCategory(category) {
     }
     return item;
 }
+
+export function getParam(param) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const parameter = urlParams.get(param);
+    return parameter;
+}
+
+export function renderListWithTemplate(template, parentElement, list) {
+    console.log(list)
+    parentElement.innerHTML = "";
+    const htmlString = list.map(template);
+    parentElement.insertAdjacentHTML('afterbegin', htmlString.join(""));
+}
