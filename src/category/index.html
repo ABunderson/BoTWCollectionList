@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoTW Collection | Home</title>
+    <link rel="stylesheet" type="text/css" href="/css/small.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/css/medium.css" media="(min-width: 600px)">
+    <link rel="stylesheet" type="text/css" href="/css/large.css" media="(min-width: 890px)">
+    <!-- <link rel="stylesheet" href="/css/style.css" /> -->
+    <script src="/js/category.js" type="module"></script>
+</head>
+
+<body>
+    <header>
+        <div id="header-start">
+            <a href="/index.html">
+                <img src="/images/BoTW.png" id="logo" alt="BoTW Collection logo. A scroll with items to collect on it.">
+            </a>
+            <a href="/index.html">
+                <h1>BoTW Collection</h1>
+            </a>
+            <input type="checkbox" id="menu" name="menu" class="menu-checkbox" checked>
+            <div class="menu">
+                <label class="menu-toggle" for="menu" id="hamburger"><img src="/images/hamburger.png"
+                        alt="A hamburger menu. Icon from icons8"></label>
+                <ul>
+                    <li><a href="/category/index.html?category=creatures">Creatures</a></li>
+                    <li><a href="/category/index.html?category=equipment">Equipment</a></li>
+                    <li><a href="/category/index.html?category=materials">Materials</a></li>
+                    <li><a href="/category/index.html?category=monsters">Monsters</a></li>
+                    <li><a href="/category/index.html?category=treasure">Treasure</a></li>
+                    <li><a href="#">Collection List</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="header-end">
+            <div class="dropdown">
+                <button class="dropbtn">Categories
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="/category/index.html?category=creatures">Creatures</a>
+                    <a href="/category/index.html?category=equipment">Equipment</a>
+                    <a href="/category/index.html?category=materials">Materials</a>
+                    <a href="/category/index.html?category=monsters">Monsters</a>
+                    <a href="/category/index.html?category=treasure">Treasure</a>
+                </div>
+            </div>
+            <form name="search" id="search">
+                <input type="text" name="searchValue" placeholder="Search" />
+                <button id="searchButton" onclick="window.location.href='#';" type="submit">
+                    <img src="/images/search.svg" alt="search icon from iconfinder.com" />
+                </button>
+            </form>
+            <a href="#">
+                <img src="/images/ancient-scroll.png" id="scroll"
+                    alt="Scroll icons created by Freepik - Flaticon at https://www.flaticon.com/free-icons/scroll">
+            </a>
+        </div>
+    </header>
+
+    <main id="category-page" class="content">
+        <h1 class="title"></h1>
+        <ul class="card-list"></ul>
+    </main>
+    <footer>
+        <div id="footer-flex">
+            <div>
+                <p>
+                    &copy;2023 BoTW Collection
+                </p>
+                <p>
+                    School Project by Adrienne Bunderson
+                </p>
+            </div>
+            <div>
+                <p>
+                    <a href="https://github.com/gadhagod/Hyrule-Compendium-API">Hyrule Compendium API</a> created by <a
+                        href="https://github.com/gadhagod">@gadhagod</a>
+                    <br>
+                    <a href="https://www.flaticon.com/free-icons/scroll" title="scroll icons">Scroll icons created by
+                        Freepik - Flaticon</a>
+                    <br>
+                    <a target="_blank" href="https://icons8.com/icon/36389/menu-rounded">Hamburger Menu</a> icon by <a
+                        target="_blank" href="https://icons8.com">Icons8</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
