@@ -16,3 +16,9 @@ async function convertToJson(res) {
         throw { name: "servicesError", message: data };
     }
 }
+
+export async function getItemById(id) {
+    const response = await fetch(baseURL + `/entry/${id}`);
+    const data = await convertToJson(response);
+    return data;
+}

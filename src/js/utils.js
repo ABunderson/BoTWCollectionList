@@ -33,3 +33,23 @@ export function renderListWithTemplate(template, parentElement, list) {
     const htmlString = list.map(template);
     parentElement.insertAdjacentHTML('afterbegin', htmlString.join(""));
 }
+
+export function loopAndCreateElement(element, array, insertionId) {
+    array.forEach(function (value) {
+        let createdElement = document.createElement(element);
+        createdElement.innerHTML = value;
+        document.querySelector(insertionId).after(createdElement);
+    })
+}
+
+export function createElement(element, value, insertionId, classAtribute, id) {
+    let createElement = document.createElement(element);
+    createElement.innerHTML = value;
+    if (classAtribute) {
+        createElement.setAttribute('class', classAtribute)
+    }
+    if (id) {
+        createElement.setAttribute('id', id)
+    }
+    document.querySelector(insertionId).after(createElement);
+}

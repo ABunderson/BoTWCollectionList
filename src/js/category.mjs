@@ -1,12 +1,12 @@
 import { getItemsByCategory } from './externalServices';
-import { renderListWithTemplate } from './utils';
+import { renderListWithTemplate, createElement } from './utils';
 
 export async function createCategoryCards(category, selector) {
     // get items
     const items = await getItemsByCategory(category);
 
     // add the title
-    const pageTitle = document.querySelector('.title');
+    const pageTitle = document.querySelector('#category-title');
     pageTitle.innerHTML = category;
 
     // get the html element
@@ -17,22 +17,17 @@ export async function createCategoryCards(category, selector) {
     if (category == 'creatures') {
 
         // renderListWithTemplate(cardTemplate, el, items.data.food);
-        let headerFood = document.createElement('h2');
-        headerFood.innerHTML = 'Food';
-        pageTitle.after(headerFood)
+        createElement('h2', 'Food', '.title')
         renderListWithTemplate(cardTemplate, el, items.data.food);
 
         //create a seperate list for non-food
         // non food header
-        let headerNonFood = document.createElement('h2');
-        headerNonFood.innerHTML = "Non Food";
-        el.after(headerNonFood)
+        createElement('h2', 'Non Food', selector, 'title', 'non-food-header');
 
         // non food list
-        let newList = document.createElement('ul');
-        newList.setAttribute('class', 'card-list');
-        newList.setAttribute('id', 'non-food-list');
-        headerNonFood.after(newList)
+        createElement('ul', '', '#non-food-header', 'card-list', 'non-food-list');
+
+        const newList = document.querySelector('#non-food-list');
         renderListWithTemplate(cardTemplate, newList, items.data.non_food);
 
     } else {
@@ -43,53 +38,28 @@ export async function createCategoryCards(category, selector) {
 
 // make a template
 function cardTemplate(item) {
-    let output;
-    if (item.common_locations === null) {
-        output = `
-        <li>
-            <a class="card" href="/category/index.html?category=creatures">
-                <img src="${item.image}" alt="A picture of a ${item.name} from BoTW.">
+    let output = `
+    <li>
+        <a class="card" href="/item/index.html?itemId=${item.id}">
+            <img src="${item.image}" alt="A picture of a ${item.name} from BoTW.">
 
-                <h3 class="card-title">${item.name}</h3>
-                <h3 class="locations">Locations</h3>
-                <div>
-                    <p>No common locations</p>
-                </div>
-            </a>
-        </li>`;
+            <h3 class="card-title">${item.name}</h3>
+            <h3 class="locations">Locations</h3>
+            <div>`;
+
+    if (item.common_locations === null) {
+        output += `<p>No common locations</p>`;
+
     } else {
-        // console.log(item.common_locations.length)
-        if (item.common_locations.length === 1) {
-            output = `
-                    <li>
-                        <a class="card" href="/category/index.html?category=creatures">
-                            <img src="${item.image}" alt="A picture of a ${item.name} from BoTW.">
-                    
-                            <h3 class="card-title">${item.name}</h3>
-                            <h3 class="locations">Locations</h3>
-                            <div>
-                                <p>${item.common_locations}</p>
-                            </div>
-                        
-                        </a>
-                    </li>`;
-        } else {
-            output = `
-                    <li>
-                        <a class="card" href="/category/index.html?category=creatures">
-                            <img src="${item.image}" alt="A picture of a ${item.name} from BoTW.">
-                  
-                                <h3 class="card-title">${item.name}</h3>
-                                <h3 class="locations">Locations</h3>
-                                <div>
-                                    <p>${item.common_locations[0]}</p>
-                                    <p>${item.common_locations[1]}</p>
-                                </div>
-                           
-                        </a>
-                    </li>`;
-        }
-    };
+        item.common_locations.forEach(function (value) {
+            output += `<p>${value}</p>`;
+        })
+    }
+
+    output += `
+            </div>
+        </a>
+    </li>`;
 
     return output;
 }

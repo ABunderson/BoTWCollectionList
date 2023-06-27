@@ -8,8 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/css/small.css" media="screen">
     <link rel="stylesheet" type="text/css" href="/css/medium.css" media="(min-width: 600px)">
     <link rel="stylesheet" type="text/css" href="/css/large.css" media="(min-width: 890px)">
-    <!-- <link rel="stylesheet" href="/css/style.css" /> -->
-    <script src="/js/category.js" type="module"></script>
+    <script src="/js/item.js" type="module"></script>
 </head>
 
 <body>
@@ -61,10 +60,16 @@
         </div>
     </header>
 
-    <main id="category-page" class="content">
-        <h1 class="title" id="category-title"></h1>
-        <ul class="card-list"></ul>
+    <main id="item-page" class="content">
+        <h1 class="page-title title"></h1>
+        <h2 id="id"></h2>
+        <img id="item-img">
+        <h2>Description</h2>
+        <p id="description"></p>
+        <h2 id="location">Locations</h2>
+
     </main>
+
     <footer>
         <div id="footer-flex">
             <div>
