@@ -64,6 +64,14 @@
         <h1 class="page-title title"></h1>
         <h2 id="id"></h2>
         <img id="item-img">
+        <h2>Add to list</h2>
+        <form name="add-item">
+            <input type="number" hidden name="item-id" id="item-id" value="0">
+            <label for="quantity">Quantity</label>
+            <input name="quantity" id="quantity" required type="number" value="1">
+            <button id="add-submit" type="submit">Add</button>
+        </form>
+        
         <h2>Description</h2>
         <p id="description"></p>
         <h2 id="location">Locations</h2>

@@ -1,5 +1,5 @@
 import { getItemById } from "./externalServices";
-import { createElement, loopAndCreateElement } from "./utils";
+import { createElement, loopAndCreateElement, formDataToJSON, setLocalStorage } from "./utils";
 
 export async function createItemInformation(itemId) {
     // get item from the api so have an object to work with
@@ -11,6 +11,7 @@ export async function createItemInformation(itemId) {
     document.querySelector('.page-title').innerHTML = item.name;
     // put id on page
     document.querySelector('#id').innerHTML = `Id ${item.id}`;
+    document.querySelector('#item-id').setAttribute('value', itemId);
 
     // put img on page
     let img = document.querySelector('#item-img');
@@ -23,7 +24,11 @@ export async function createItemInformation(itemId) {
     // if the item has drops
     if (item.drops && item.drops.length > 0) {
         createElement('h2', `${item.name} Drops`, '#description', 'title', 'drop-header');
-        loopAndCreateElement('p', item.drops, '#drop-header');
+        loopAndCreateElement('p', item.drops, '#drop-header', true);
+        item.drops.forEach(function(drop) {
+          addDropFromListener(`add-drop-${drop}`, itemId);  
+        })
+        
     }
 
     // if the item has an effect when cooking 
@@ -48,4 +53,35 @@ export async function createItemInformation(itemId) {
     } else {
         createElement('p', 'No common locations', '#location');
     }
+
+    // add event listeners
+    addItemFormListener(itemId);
+}
+
+function addItemFormListener(itemId) {
+    document.forms['add-item'].addEventListener('submit', (e) => {
+        e.preventDefault();
+        addToList(e.target, itemId);
+    });
+}
+
+function addDropFromListener(formName, itemId){
+    document.forms[formName].addEventListener('submit', (e) => {
+        e.preventDefault();
+        addToList(e.target, itemId, true);
+    });
+}
+
+
+function addToList(formElement, itemId, drop) {
+    const json = formDataToJSON(formElement)
+    let itemArray;
+    if (drop) { 
+        itemArray = { 'itemId': itemId, 'quantity': json.quantity, 'drop': json.drop };
+    } else {
+        itemArray = { 'itemId': itemId, 'quantity': json.quantity };
+    }
+
+    console.log(itemArray)
+    setLocalStorage('list', itemArray);
 }

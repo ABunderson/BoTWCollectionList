@@ -34,11 +34,48 @@ export function renderListWithTemplate(template, parentElement, list) {
     parentElement.insertAdjacentHTML('afterbegin', htmlString.join(""));
 }
 
-export function loopAndCreateElement(element, array, insertionId) {
+export function loopAndCreateElement(element, array, insertionId, form) {
     array.forEach(function (value) {
         let createdElement = document.createElement(element);
         createdElement.innerHTML = value;
         document.querySelector(insertionId).after(createdElement);
+        if (form === true) {
+            // console.log('need a form');
+            // create form
+            let createForm = document.createElement('form');
+            createForm.setAttribute('name', `add-drop-${value}`);
+
+            // hidden input
+            let createHiddenInput = document.createElement('input');
+            createHiddenInput.setAttribute('hidden', '');
+            createHiddenInput.setAttribute('value', value);
+            createHiddenInput.setAttribute('type', 'text');
+            createHiddenInput.setAttribute('name', 'drop');
+            createForm.append(createHiddenInput);
+
+            // label
+            let createLabel = document.createElement('label');
+            createLabel.setAttribute('for', 'quantity');
+            createLabel.innerHTML = `Add ${value}`;
+            createForm.append(createLabel);
+
+            // input
+            let createInput = document.createElement('input');
+            createInput.setAttribute('required', '');
+            createInput.setAttribute('value', 1);
+            createInput.setAttribute('name', 'quantity');
+            createInput.setAttribute('type', 'number');
+            createForm.append(createInput);
+
+            // button
+            let createButton = document.createElement('button');
+            createButton.setAttribute('type', 'submit');
+            createButton.innerHTML = 'Add';
+            createForm.append(createButton);
+
+
+            createdElement.after(createForm);
+        }
     })
 }
 
@@ -52,4 +89,31 @@ export function createElement(element, value, insertionId, classAtribute, id) {
         createElement.setAttribute('id', id)
     }
     document.querySelector(insertionId).after(createElement);
+}
+
+// retrieve data from localstorage
+export function getLocalStorage(key) {
+    return JSON.parse(localStorage.getItem(key));
+}
+
+// save data to local storage
+export function setLocalStorage(key, data) {
+    if (key == 'list') {
+        let currentArray = JSON.parse(localStorage.getItem(key)) || [];
+        currentArray.push(data);
+        localStorage.setItem(key, JSON.stringify(currentArray));
+    } else {
+        localStorage.setItem(key, JSON.stringify(data));
+    }
+}
+
+export function formDataToJSON(formElement) {
+    const formData = new FormData(formElement),
+        convertedJSON = {};
+
+    formData.forEach(function (value, key) {
+        convertedJSON[key] = value;
+    });
+
+    return convertedJSON;
 }

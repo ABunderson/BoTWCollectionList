@@ -134,6 +134,15 @@ footer {
     color: black;
 } 
 
+/* Button */
+button {
+    background: var(--green);
+    border: 2px solid var(--gold);
+    padding: 5px 10px;
+    color: white;
+    font-size: 1.2em;
+}
+
 /* Home page */
 
 .hero {
@@ -225,4 +234,14 @@ hr {
 
 #item-page {
     text-align: center;
+}
+
+form label, form input {
+    font-size: 1.2em;
+
+}
+form input {
+    max-width: 100px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
