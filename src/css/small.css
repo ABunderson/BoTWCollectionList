@@ -4,7 +4,7 @@
 /* Main rules */
 * {
     box-sizing: border-box;
-}
+  }
 
 :root {
     /* colors */
@@ -28,9 +28,6 @@ body {
     font-family: 'Sarabun', sans-serif;
     background-color: var(--gray);
     margin: 0;
-    position: relative;
-    width: 100%;
-    overflow: hidden !important;
 }
 
 .content {
@@ -47,9 +44,9 @@ body {
 
 header {
     background-color: var(--blue);
-    /* position: relative;
+    position: static;
     width: 100%;
-    overflow: hidden !important; */
+    overflow: hidden;
 }
 
 header a {
@@ -73,14 +70,14 @@ header h1 {
 }
 
 .menu {
-    position: absolute;
-    top: 0px;
-    right: -150px;
-    background: #fff;
-    width: 150px;
-    height: 100%;
-    transform: translate3d(-150px, 0, 0);
-    transition: transform 0.35s;
+  position: absolute;
+  top: 0px;
+  right: -150px;
+  background: #fff;
+  width: 150px;
+  height: 100%;
+  transform: translate3d(-150px, 0, 0);
+  transition: transform 0.35s;
 }
 
 .menu ul {
@@ -102,22 +99,22 @@ header h1 {
     padding-right: 5px;
 }
 
-label.menu-toggle {
-    position: absolute;
-    left: -55px;
-    width: 55px;
-    height: 50px;
-    padding: 0;
-    background-color: var(--blue);
-    cursor: pointer;
+label.menu-toggle  {
+position: absolute;    
+left: -55px;
+width: 55px;
+height: 50px;
+padding: 0;
+background-color: var(--blue);
+cursor: pointer;
 }
 
 .menu-checkbox {
     display: none;
 }
 
-.menu-checkbox:checked+.menu {
-    transform: translate3d(0, 0, 0);
+.menu-checkbox:checked + .menu {
+  transform: translate3d(0, 0, 0);
 }
 
 /* hide stuff that shouldn't show on the small page in the header */
@@ -135,7 +132,7 @@ footer {
 
 #footer-flex a {
     color: black;
-}
+} 
 
 /* Button */
 button {
@@ -166,10 +163,10 @@ hr {
     list-style-type: none;
     row-gap: 10px;
     padding: 0;
-}
+  }
 
 .card-list li {
-
+    
     border: 1px solid black;
     text-align: center;
     padding: .5em;
@@ -191,7 +188,7 @@ hr {
 /* category page */
 
 #category-page .card-list li {
-
+    
     border: 1px solid black;
     text-align: center;
     padding: .5em;
@@ -238,14 +235,12 @@ hr {
 #item-page {
     text-align: center;
 }
-
 #item-page p {
     font-size: 1.2em;
 }
 
 
-#item-page form label,
-#item-page form input {
+#item-page form label, #item-page form input {
     font-size: 1.2em;
 }
 
@@ -255,6 +250,6 @@ hr {
     margin-right: 10px;
 }
 
-#drop-section p {
+#drop-section p{
     margin-bottom: 5px;
 }
