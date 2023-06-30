@@ -235,13 +235,21 @@ hr {
 #item-page {
     text-align: center;
 }
-
-form label, form input {
+#item-page p {
     font-size: 1.2em;
-
 }
-form input {
+
+
+#item-page form label, #item-page form input {
+    font-size: 1.2em;
+}
+
+#item-page form input {
     max-width: 100px;
     margin-left: 10px;
     margin-right: 10px;
+}
+
+#drop-section p{
+    margin-bottom: 5px;
 }

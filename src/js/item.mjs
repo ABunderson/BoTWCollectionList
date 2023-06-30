@@ -24,9 +24,10 @@ export async function createItemInformation(itemId) {
     // if the item has drops
     if (item.drops && item.drops.length > 0) {
         createElement('h2', `${item.name} Drops`, '#description', 'title', 'drop-header');
-        loopAndCreateElement('p', item.drops, '#drop-header', true);
+        createElement('div', '', '#drop-header', 'title', 'drop-section')
+        loopAndCreateElement('p', item.drops, '#drop-section', 'append', true)
         item.drops.forEach(function(drop) {
-          addDropFromListener(`add-drop-${drop}`, itemId);  
+          addDropFromListener(`add-drop-${drop.replace(/\s+/g, '-')}`, itemId);  
         })
         
     }
@@ -48,7 +49,7 @@ export async function createItemInformation(itemId) {
 
     //location
     if (item.common_locations) {
-        loopAndCreateElement('p', item.common_locations, '#location');
+        loopAndCreateElement('p', item.common_locations, '#location', 'after');
 
     } else {
         createElement('p', 'No common locations', '#location');

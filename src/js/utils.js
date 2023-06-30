@@ -34,16 +34,22 @@ export function renderListWithTemplate(template, parentElement, list) {
     parentElement.insertAdjacentHTML('afterbegin', htmlString.join(""));
 }
 
-export function loopAndCreateElement(element, array, insertionId, form) {
+export function loopAndCreateElement(element, array, insertionId, position, form) {
     array.forEach(function (value) {
         let createdElement = document.createElement(element);
         createdElement.innerHTML = value;
+        if (position === 'after'){
         document.querySelector(insertionId).after(createdElement);
+        } else {
+            document.querySelector(insertionId).append(createdElement);
+        }
         if (form === true) {
             // console.log('need a form');
             // create form
             let createForm = document.createElement('form');
-            createForm.setAttribute('name', `add-drop-${value}`);
+            createForm.setAttribute('name', `add-drop-${value.replace(/\s+/g, '-')}`);
+            createForm.setAttribute('id', `add-drop-${value.replace(/\s+/g, '-')}`);
+
 
             // hidden input
             let createHiddenInput = document.createElement('input');
@@ -56,7 +62,9 @@ export function loopAndCreateElement(element, array, insertionId, form) {
             // label
             let createLabel = document.createElement('label');
             createLabel.setAttribute('for', 'quantity');
-            createLabel.innerHTML = `Add ${value}`;
+            // createLabel.innerHTML = `Add ${value}`;
+            createLabel.innerHTML = `Quantity`;
+
             createForm.append(createLabel);
 
             // input
@@ -75,6 +83,7 @@ export function loopAndCreateElement(element, array, insertionId, form) {
 
 
             createdElement.after(createForm);
+            createElement('hr', '', `#add-drop-${value.replace(/\s+/g, '-')}`);
         }
     })
 }
