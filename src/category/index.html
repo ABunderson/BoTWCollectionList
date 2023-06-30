@@ -21,11 +21,11 @@
             <a href="/index.html">
                 <h1>BoTW Collection</h1>
             </a>
-            <input type="checkbox" id="menu" name="menu" class="menu-checkbox" checked>
-            <div class="menu">
-                <label class="menu-toggle" for="menu" id="hamburger"><img src="/images/hamburger.png"
+            <input type="checkbox" id="menu" name="menu" class="menu-checkbox" class="hide" checked>
+            <div class="menu hide">
+                <label class="menu-toggle hide" for="menu" id="hamburger"><img src="/images/hamburger.png"
                         alt="A hamburger menu. Icon from icons8"></label>
-                <ul>
+                <ul id="menu-list" class="hide">
                     <li><a href="/category/index.html?category=creatures">Creatures</a></li>
                     <li><a href="/category/index.html?category=equipment">Equipment</a></li>
                     <li><a href="/category/index.html?category=materials">Materials</a></li>
@@ -33,6 +33,7 @@
                     <li><a href="/category/index.html?category=treasure">Treasure</a></li>
                     <li><a href="#">Collection List</a></li>
                 </ul>
+
             </div>
         </div>
         <div id="header-end">

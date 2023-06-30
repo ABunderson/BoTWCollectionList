@@ -126,3 +126,14 @@ export function formDataToJSON(formElement) {
 
     return convertedJSON;
 }
+
+export function menuClick(){
+    console.log('clicked the menu')
+    let menu = document.querySelector('.menu');
+    menu.classList.toggle('show');
+    let menuToggle = document.querySelector('.menu-toggle');
+    menuToggle.classList.toggle('show');
+    menuToggle.classList.toggle('hide');
+    let menuList = document.querySelector('#menu-list');
+    menuList.classList.toggle('hide');
+}
