@@ -1,5 +1,5 @@
 import { getItemById } from "./externalServices";
-import { createElement, loopAndCreateElement, formDataToJSON, setLocalStorage } from "./utils";
+import { createElement, loopAndCreateElement, addToList } from "./utils";
 
 export async function createItemInformation(itemId) {
     // get item from the api so have an object to work with
@@ -23,28 +23,28 @@ export async function createItemInformation(itemId) {
 
     // if the item has drops
     if (item.drops && item.drops.length > 0) {
-        createElement('h2', `${item.name} Drops`, '#description', 'title', 'drop-header');
-        createElement('div', '', '#drop-header', 'title', 'drop-section')
+        createElement('h2', `${item.name} Drops`,  '#description', 'after','title', 'drop-header');
+        createElement('div', '',  '#drop-header', 'after','title', 'drop-section')
         loopAndCreateElement('p', item.drops, '#drop-section', 'append', true)
         item.drops.forEach(function(drop) {
-          addDropFromListener(`add-drop-${drop.replace(/\s+/g, '-')}`, itemId);  
+          addDropFromListener(`add-${drop.replace(/\s+/g, '-')}`, itemId);  
         })
         
     }
 
     // if the item has an effect when cooking 
     if (item.cooking_effect) {
-        createElement('h2', `${item.name} cooking effect`, '#description', 'title', 'cooking');
-        createElement('p', `Hearts recovered: ${item.hearts_recovered}`, '#cooking');
-        createElement('p', `Special effect: ${item.cooking_effect}`, '#cooking');
+        createElement('h2', `${item.name} cooking effect`, '#description', 'after','title', 'cooking');
+        createElement('p', `Hearts recovered: ${item.hearts_recovered}`, '#cooking','after');
+        createElement('p', `Special effect: ${item.cooking_effect}`, '#cooking', 'after',);
     }
 
     // only if attack is set
     if (item.attack) {
         // weapon strength and defense
-        createElement('h2', 'Equipment Strength', '#description', 'title', 'power');
-        createElement('p', `Defense ${item.defense}`, '#power');
-        createElement('p', `Attack ${item.attack}`, '#power');
+        createElement('h2', 'Equipment Strength', '#description', 'after','title', 'power');
+        createElement('p', `Defense ${item.defense}`,'#power', 'after');
+        createElement('p', `Attack ${item.attack}`,'#power', 'after');
     }
 
     //location
@@ -52,7 +52,7 @@ export async function createItemInformation(itemId) {
         loopAndCreateElement('p', item.common_locations, '#location', 'after');
 
     } else {
-        createElement('p', 'No common locations', '#location');
+        createElement('p', 'No common locations','#location', 'after');
     }
 
     // add event listeners
@@ -73,16 +73,3 @@ function addDropFromListener(formName, itemId){
     });
 }
 
-
-function addToList(formElement, itemId, drop) {
-    const json = formDataToJSON(formElement)
-    let itemArray;
-    if (drop) { 
-        itemArray = { 'itemId': itemId, 'quantity': json.quantity, 'drop': json.drop };
-    } else {
-        itemArray = { 'itemId': itemId, 'quantity': json.quantity };
-    }
-
-    console.log(itemArray)
-    setLocalStorage('list', itemArray);
-}

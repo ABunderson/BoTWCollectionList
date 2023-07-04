@@ -284,3 +284,7 @@ hr {
 #drop-section p {
     margin-bottom: 5px;
 }
+
+.list-img {
+    max-width: 100px;
+}

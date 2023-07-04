@@ -38,57 +38,77 @@ export function loopAndCreateElement(element, array, insertionId, position, form
     array.forEach(function (value) {
         let createdElement = document.createElement(element);
         createdElement.innerHTML = value;
-        if (position === 'after'){
-        document.querySelector(insertionId).after(createdElement);
+        if (position === 'after') {
+            document.querySelector(insertionId).after(createdElement);
         } else {
             document.querySelector(insertionId).append(createdElement);
         }
         if (form === true) {
-            // console.log('need a form');
-            // create form
-            let createForm = document.createElement('form');
-            createForm.setAttribute('name', `add-drop-${value.replace(/\s+/g, '-')}`);
-            createForm.setAttribute('id', `add-drop-${value.replace(/\s+/g, '-')}`);
+            let form = createQuantityForm(value, 'Add');
 
-
-            // hidden input
-            let createHiddenInput = document.createElement('input');
-            createHiddenInput.setAttribute('hidden', '');
-            createHiddenInput.setAttribute('value', value);
-            createHiddenInput.setAttribute('type', 'text');
-            createHiddenInput.setAttribute('name', 'drop');
-            createForm.append(createHiddenInput);
-
-            // label
-            let createLabel = document.createElement('label');
-            createLabel.setAttribute('for', 'quantity');
-            // createLabel.innerHTML = `Add ${value}`;
-            createLabel.innerHTML = `Quantity`;
-
-            createForm.append(createLabel);
-
-            // input
-            let createInput = document.createElement('input');
-            createInput.setAttribute('required', '');
-            createInput.setAttribute('value', 1);
-            createInput.setAttribute('name', 'quantity');
-            createInput.setAttribute('type', 'number');
-            createForm.append(createInput);
-
-            // button
-            let createButton = document.createElement('button');
-            createButton.setAttribute('type', 'submit');
-            createButton.innerHTML = 'Add';
-            createForm.append(createButton);
-
-
-            createdElement.after(createForm);
+            createdElement.after(form);
             createElement('hr', '', `#add-drop-${value.replace(/\s+/g, '-')}`);
         }
     })
 }
 
-export function createElement(element, value, insertionId, classAtribute, id) {
+export function createQuantityForm(value, buttonMessage, index, quantity) {
+    // console.log('need a form');
+    // create form
+    let createForm = document.createElement('form');
+    createForm.setAttribute('name', `add-${value.replace(/\s+/g, '-')}`);
+    if (index){
+        createForm.setAttribute('id', `add-${value.replace(/\s+/g, '-')}${index}`);
+    } else {
+    createForm.setAttribute('id', `add-${value.replace(/\s+/g, '-')}`);
+    }
+
+
+    // hidden input
+    let createHiddenInput = document.createElement('input');
+    createHiddenInput.setAttribute('hidden', '');
+    if (index) {
+        createHiddenInput.setAttribute('value', index);
+    } else {
+        createHiddenInput.setAttribute('value', value);
+    }
+    createHiddenInput.setAttribute('type', 'text');
+    createHiddenInput.setAttribute('name', 'drop');
+    createForm.append(createHiddenInput);
+
+    // label
+    let createLabel = document.createElement('label');
+    createLabel.setAttribute('for', 'quantity');
+    // createLabel.innerHTML = `Add ${value}`;
+    createLabel.innerHTML = `Quantity`;
+
+    createForm.append(createLabel);
+
+    // input
+    let createInput = document.createElement('input');
+    createInput.setAttribute('required', '');
+    if (quantity) {
+        createInput.setAttribute('value', quantity);
+    } else {
+        createInput.setAttribute('value', 1);
+    }
+    createInput.setAttribute('name', 'quantity');
+    createInput.setAttribute('type', 'number');
+    createForm.append(createInput);
+
+    // button
+    let createButton = document.createElement('button');
+    createButton.setAttribute('type', 'submit');
+    createButton.innerHTML = buttonMessage;
+    createForm.append(createButton);
+
+    return createForm;
+    // createdElement.after(createForm);
+    // createElement('hr', '', `#add-drop-${value.replace(/\s+/g, '-')}`);
+
+}
+
+export function createElement(element, value, insertionId, position, classAtribute, id) {
     let createElement = document.createElement(element);
     createElement.innerHTML = value;
     if (classAtribute) {
@@ -97,7 +117,12 @@ export function createElement(element, value, insertionId, classAtribute, id) {
     if (id) {
         createElement.setAttribute('id', id)
     }
-    document.querySelector(insertionId).after(createElement);
+    if (position === 'after') {
+        document.querySelector(insertionId).after(createElement);
+    }
+    if (position === 'append') {
+        document.querySelector(insertionId).append(createElement);
+    }
 }
 
 // retrieve data from localstorage
@@ -127,7 +152,7 @@ export function formDataToJSON(formElement) {
     return convertedJSON;
 }
 
-export function menuClick(){
+export function menuClick() {
     console.log('clicked the menu')
     let menu = document.querySelector('.menu');
     menu.classList.toggle('show');
@@ -136,4 +161,17 @@ export function menuClick(){
     menuToggle.classList.toggle('hide');
     let menuList = document.querySelector('#menu-list');
     menuList.classList.toggle('hide');
+}
+
+export function addToList(formElement, itemId, drop) {
+    const json = formDataToJSON(formElement)
+    let itemArray;
+    if (drop) { 
+        itemArray = { 'itemId': itemId, 'quantity': json.quantity, 'drop': json.drop };
+    } else {
+        itemArray = { 'itemId': itemId, 'quantity': json.quantity };
+    }
+
+    console.log(itemArray)
+    setLocalStorage('list', itemArray);
 }

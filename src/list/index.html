@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BoTW Collection | Item</title>
+    <title>BoTW Collection | Collection List</title>
     <link rel="stylesheet" type="text/css" href="/css/small.css" media="screen">
     <link rel="stylesheet" type="text/css" href="/css/medium.css" media="(min-width: 600px)">
     <link rel="stylesheet" type="text/css" href="/css/large.css" media="(min-width: 890px)">
-    <script src="/js/item.js" type="module"></script>
+    <script src="/js/list.js" type="module"></script>
 </head>
 
 <body>
@@ -61,21 +61,10 @@
         </div>
     </header>
 
-    <main id="item-page" class="content">
-        <h1 class="page-title title"></h1>
-        <h2 id="id"></h2>
-        <img id="item-img">
-        <h2>Add to list</h2>
-        <form name="add-item">
-            <input type="number" hidden name="item-id" id="item-id" value="0">
-            <label for="quantity">Quantity</label>
-            <input name="quantity" id="quantity" required type="number" value="1">
-            <button id="add-submit" type="submit">Add</button>
-        </form>
-        
-        <h2>Description</h2>
-        <p id="description"></p>
-        <h2 id="location">Locations</h2>
+    <main id="list-page" class="content">
+        <h1>Collection List</h1>
+        <div class="collection-list"></div>
+
 
     </main>
 

@@ -17,15 +17,15 @@ export async function createCategoryCards(category, selector) {
     if (category == 'creatures') {
 
         // renderListWithTemplate(cardTemplate, el, items.data.food);
-        createElement('h2', 'Food', '.title')
+        createElement('h2', 'Food', '.title', 'after')
         renderListWithTemplate(cardTemplate, el, items.data.food);
 
         //create a seperate list for non-food
         // non food header
-        createElement('h2', 'Non Food', selector, 'title', 'non-food-header');
+        createElement('h2', 'Non Food', selector, 'after', 'title', 'non-food-header');
 
         // non food list
-        createElement('ul', '', '#non-food-header', 'card-list', 'non-food-list');
+        createElement('ul', '', '#non-food-header', 'after', 'card-list', 'non-food-list');
 
         const newList = document.querySelector('#non-food-list');
         renderListWithTemplate(cardTemplate, newList, items.data.non_food);
