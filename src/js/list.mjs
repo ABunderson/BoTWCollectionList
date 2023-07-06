@@ -33,11 +33,11 @@ function createItem(listItem, index) {
     
     // quantity
     createElement('p', 'Collect: ', `#img-${index}`, 'after', 'quantity-p', `quantity-${index}`);
-    createElement('span', '- ', `#quantity-${index}`, 'append', 'list-button', `minus-${index}`);
+    createElement('span', '-', `#quantity-${index}`, 'append', 'list-add', `minus-${index}`);
     createElement('input', '', `#quantity-${index}`, 'append', 'list-number', `quantity-${index}-number`)
     let quantity = document.querySelector(`#quantity-${index}-number`);
     quantity.setAttribute('value', listItem.quantity);
-    createElement('span', ' +', `#quantity-${index}`, 'append', 'list-button', `add-${index}`);
+    createElement('span', '+', `#quantity-${index}`, 'append', 'list-minus', `add-${index}`);
     createElement('span', ' X', `#quantity-${index}`, 'append', 'remove-item', `remove-item-${index}`);
 
     // listeners

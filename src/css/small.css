@@ -296,3 +296,35 @@ hr {
 
     text-align: center;
 }
+
+#list-page .list-add, #list-page .list-minus {
+    color: white;
+    font-weight: 900;
+    border: 1px solid black;
+    padding-left: 8px;
+    padding-right: 8px;
+    vertical-align: middle;
+}
+
+#list-page .list-add {
+    background-color: red;
+}
+
+#list-page .list-minus {
+    background-color: var(--green);
+}
+
+#list-page input {
+    max-width: 80px;
+    text-align: center;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+#list-page .remove-item {
+    color: red;
+    font-weight: 900;
+    font-size: 1.2em;
+    padding-left: 10px;
+    vertical-align: middle;
+}
