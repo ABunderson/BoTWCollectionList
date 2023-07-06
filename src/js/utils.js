@@ -1,4 +1,4 @@
-import { getItemsByCategory } from "./externalServices";
+import { getItemById, getItemsByCategory } from "./externalServices";
 
 export async function getRanItemByCategory(category) {
 
@@ -163,15 +163,18 @@ export function menuClick() {
     menuList.classList.toggle('hide');
 }
 
-export function addToList(formElement, itemId, drop) {
+export async function addToList(formElement, itemId, drop) {
     const json = formDataToJSON(formElement)
     let itemArray;
+    let item = await getItemById(itemId);
+    // console.log(item.data)
+    item = item.data;
     if (drop) { 
-        itemArray = { 'itemId': itemId, 'quantity': json.quantity, 'drop': json.drop };
+        itemArray = { item, 'quantity': json.quantity, 'drop': json.drop };
     } else {
-        itemArray = { 'itemId': itemId, 'quantity': json.quantity };
+        itemArray = { item, 'quantity': json.quantity };
     }
 
-    console.log(itemArray)
+    // console.log(itemArray)
     setLocalStorage('list', itemArray);
 }

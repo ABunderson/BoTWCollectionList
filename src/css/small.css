@@ -46,7 +46,7 @@ header {
     background-color: var(--blue);
     position: static;
     width: 100%;
-    /* overflow: hidden; */
+
 }
 
 header a {
@@ -62,6 +62,7 @@ header img {
 
 header h1 {
     margin: 0;
+    padding-right: 55px;
 }
 
 #header-start {
@@ -287,4 +288,11 @@ hr {
 
 .list-img {
     max-width: 100px;
+}
+
+/* Collection List Page */
+
+#list-page .collection-list {
+
+    text-align: center;
 }

@@ -25,6 +25,10 @@ header {
     padding: .25em;
 }
 
+header h1 {
+    padding-right: 0;
+}
+
 /* Search bar */
 
 #search {
@@ -134,5 +138,22 @@ header {
     border: 1px solid var(--eerie-black);
     margin-bottom: 15px;
     margin-top: 5px;
+}
+
+/* Collection List Page */
+
+#list-page .collection-list {
+
+    text-align: left;
+}
+
+#list-page .quantity-p {
+    display: inline-block;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+
+#list-page img {
+    margin-bottom: -6px;
 }
 
