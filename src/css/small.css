@@ -46,7 +46,6 @@ header {
     background-color: var(--blue);
     position: static;
     width: 100%;
-
 }
 
 header a {
@@ -96,6 +95,15 @@ header h1 {
     list-style-type: none;
     padding: 5px;
     margin-top: 5px;
+}
+/* Add a grey background color to dropdown links on hover */
+.menu li:hover {
+    background-color: var(--gray) !important;
+}
+
+/* active category page */
+#header-start .active {
+    background-color: rgba(26, 119, 24, .2) !important;
 }
 
 .menu li {
@@ -286,11 +294,15 @@ hr {
     margin-bottom: 5px;
 }
 
-.list-img {
-    max-width: 100px;
+#item-img {
+    max-width: 300px;
+    width: 100%;
 }
 
 /* Collection List Page */
+.list-img {
+    max-width: 100px;
+}
 
 #list-page .collection-list {
 

@@ -28,7 +28,7 @@ export function getParam(param) {
 }
 
 export function renderListWithTemplate(template, parentElement, list) {
-    console.log(list)
+    // console.log(list)
     parentElement.innerHTML = "";
     const htmlString = list.map(template);
     parentElement.insertAdjacentHTML('afterbegin', htmlString.join(""));
@@ -108,6 +108,11 @@ export function createQuantityForm(value, buttonMessage, index, quantity) {
 
 }
 
+export function setHamActiveCategory(selector) {
+    let activeCategory = document.querySelector(`#header-start`).querySelector(`.${selector}`)
+    activeCategory.setAttribute('class', 'active');
+}
+
 export function createElement(element, value, insertionId, position, classAtribute, id) {
     let createElement = document.createElement(element);
     createElement.innerHTML = value;
@@ -153,7 +158,7 @@ export function formDataToJSON(formElement) {
 }
 
 export function menuClick() {
-    console.log('clicked the menu')
+    // console.log('clicked the menu')
     let menu = document.querySelector('.menu');
     menu.classList.toggle('show');
     let menuToggle = document.querySelector('.menu-toggle');

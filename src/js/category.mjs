@@ -63,3 +63,8 @@ function cardTemplate(item) {
 
     return output;
 }
+
+export function setActiveCategory(selector) {
+    let activeCategory = document.querySelector(`#header-end`).querySelector(`.${selector}`)
+    activeCategory.setAttribute('class', 'active');
+}

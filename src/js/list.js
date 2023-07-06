@@ -1,4 +1,4 @@
-import { menuClick } from "./utils"
+import { menuClick, setHamActiveCategory } from "./utils"
 import { renderCollectionList } from "./list.mjs";
 
 document.querySelector('#menu').addEventListener('click', () => {
@@ -6,3 +6,5 @@ document.querySelector('#menu').addEventListener('click', () => {
 });
 
 renderCollectionList();
+
+setHamActiveCategory('list');
