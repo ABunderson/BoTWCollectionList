@@ -176,46 +176,58 @@ export async function addToList(formElement, itemId, drop) {
 
 export async function renderWithTemplate(template, parentElement, data, position = 'afterbegin', clear = true) {
     if (clear) {
-      parentElement.innerHTML = "";
+        parentElement.innerHTML = "";
     }
-  
+
     const htmlString = await template(data);
     parentElement.insertAdjacentHTML(position, htmlString);
-  }
+}
 
-  export function loadHeaderFooter() {
+export function loadHeaderFooter() {
     const headerTemplateFn = loadTemplate("/partials/header.html");
     // const footerTemplateFn = loadTemplate("/partials/footer.html");
     const headerLocation = document.querySelector("#main-header");
     // const footerLocation = document.querySelector("#main-footer");
-  
+
     renderWithTemplate(headerTemplateFn, headerLocation);
-    
+
     // document.querySelector('#menu').addEventListener('click', () => {
     //     menuClick();
     // });
     // renderWithTemplate(footerTemplateFn, footerLocation);
-  }
+}
 
-  function loadTemplate(path) {
+function loadTemplate(path) {
     // wait what?  we are returning a new function? 
     // this is called currying and can be very helpful.
     return async function () {
-      const res = await fetch(path);
-  
-      if (res.ok) {
-        const html = await res.text();
-        return html;
-      }
-    };
-  }
+        const res = await fetch(path);
 
-  export function searchForm() {
+        if (res.ok) {
+            const html = await res.text();
+            return html;
+        }
+    };
+}
+
+export function searchForm() {
+    // large search bar
     document.forms['search'].addEventListener('submit', (e) => {
-    e.preventDefault();  
-    const formData = formDataToJSON(e.target);
-    let value = formData.searchValue;
-    value = value.toLowerCase();
-    window.location.href = `/category/index.html?search=${value}`
-});
+        e.preventDefault();
+        const formData = formDataToJSON(e.target);
+        let value = formData.searchValue;
+        value = value.toLowerCase();
+        window.location.href = `/category/index.html?search=${value}`
+
+
+    });
+    // Hamburger search
+    document.forms['ham-search'].addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = formDataToJSON(e.target);
+        let value = formData.hamSearchValue;
+        value = value.toLowerCase();
+        window.location.href = `/category/index.html?search=${value}`
+
+    });
 }

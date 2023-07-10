@@ -14,74 +14,69 @@ export async function createCategoryCards(category, selector) {
 
     // send through template
     // render out the product list to the element
-        renderListWithTemplate(cardTemplate, el, items.data);
+    renderListWithTemplate(cardTemplate, el, items.data);
 
 }
-export async function handleSearch(search, selector){
+export async function handleSearch(search, selector) {
 
     // get list of all items
     let listToSearch = await getAllItems();
-    // console.log(listToSearch.data);
-    let searchedList = [];
-    let searchDrop = [];
 
-    searchedList = listToSearch.data.filter(item => item.name.includes(search));
+    let numberCheck = Number(search);
+    let uniqueList = [];
+    if (typeof numberCheck == 'number' && !isNaN(numberCheck)) {
+        let numberList = [];
+        console.log(listToSearch)
+        console.log(typeof listToSearch.data[0].id)
+        numberList = listToSearch.data.filter(item => item.id.toString().includes(search));
+        console.log(numberList);
+        uniqueList = numberList
+    } else {
+        // console.log(listToSearch.data);
+        let searchedList = [];
+        let searchDrop = [];
 
-    
-    searchDrop = listToSearch.data.filter(item => filterWithDrops(item, search));
-    console.log(searchDrop)
-    const addedLists = searchedList.concat(searchDrop);
-    let uniqueList = [...new Set(addedLists)]
-    // let outputList = Array.from(uniqueList);
+        searchedList = listToSearch.data.filter(item => item.name.includes(search));
 
-     // add the title
-     const pageTitle = document.querySelector('#category-title');
-     pageTitle.innerHTML = `Search for: ${search}`;
- 
-     // get the html element
-     const el = document.querySelector(selector);
- 
-     // send through template
-     // render out the product list to the element
-         renderListWithTemplate(cardTemplate, el, uniqueList);
+        searchDrop = listToSearch.data.filter(item => filterWithDrops(item, search));
+        console.log(searchDrop)
+        const addedLists = searchedList.concat(searchDrop);
+        uniqueList = [...new Set(addedLists)]
+    }
+
+    // add the title
+    const pageTitle = document.querySelector('#category-title');
+    pageTitle.innerHTML = `Search for: ${search}`;
+
+    // get the html element
+    const el = document.querySelector(selector);
+
+    // send through template
+    // render out the product list to the element
+    renderListWithTemplate(cardTemplate, el, uniqueList);
 
 }
 
-function filterWithDrops(item, search){
-    if (item.drops){
+function filterWithDrops(item, search) {
+    if (item.drops) {
 
-        if (item.drops.includes(search)){
+        if (item.drops.includes(search)) {
             return true;
         }
         let check = false;
         item.drops.forEach((drop) => {
-            console.log(drop)
-            if (drop.includes(search)){
+            if (drop.includes(search)) {
                 check = true
             }
         })
-        if (check){
+        if (check) {
             return true;
         }
         return false;
     }
-    
+
     return false;
 }
-
-// function searchDrops(item, search){
-//     console.log('filter function')
-//     if (!item.drops){
-//         return false;
-
-//     } else {
-//                 console.log('has a drop')
-//         item.drops.includes(search);
-//         return true;
-//     }
-//     // console.log(dropsArray)
-//     // dropsArray.includes(search);
-// }
 
 // make a template
 function cardTemplate(item) {
@@ -91,6 +86,7 @@ function cardTemplate(item) {
             <img src="${item.image}" alt="A picture of a ${item.name} from BoTW.">
 
             <h3 class="card-title">${item.name}</h3>
+            <h3 class="card-id">Id ${item.id}</h3>
             <h3 class="locations">Locations</h3>
             <div>`;
 

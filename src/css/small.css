@@ -98,7 +98,40 @@ header h1 {
 }
 /* Add a grey background color to dropdown links on hover */
 .menu li:hover {
-    background-color: var(--gray) !important;
+    background-color: var(--gray);
+}
+
+.menu li:last-child:hover{
+    background-color: white !important;
+}
+.menu li form {
+    padding: 0;
+    padding-left: 4px;
+    margin: 0;
+}
+.menu li input {
+    max-width: 100px;
+    border: 1px solid black;
+    border-right: none;
+    margin: 0;
+    vertical-align: top;
+    padding-bottom: 2px;
+}
+
+.menu li button {
+    width: 21px;
+    height: 21px;
+    padding: 0;
+    margin: 0;
+    margin-left: -5px;
+    vertical-align: top;
+}
+
+.menu li img {
+    width: 18px;
+    height: 18px;
+    margin-left: 2px;
+    filter: invert(1);  
 }
 
 /* active category page */
@@ -201,6 +234,10 @@ hr {
     list-style-type: none;
     row-gap: 10px;
     padding: 0;
+}
+
+.card-list .card-id{
+    margin-top: -15px;
 }
 
 .card-list li {
