@@ -5,12 +5,17 @@ export function renderCollectionList() {
     const list = getLocalStorage('list');
     document.querySelector('.collection-list').innerHTML = '';
 
+    // sort so they are always in the same order
+    // local storage stores items randomly
     list.sort((p1, p2) => (p1.item.name > p2.item.name) ? 1 : (p1.item.name < p2.item.name) ? -1 : 0);
 
     list.map((listItem, index) =>
 
         createItem(listItem, index)
     );
+
+    // output the different locations to search
+    list.forEach(listItem => getLocations(listItem))
 }
 
 // function that works for 1 item to output it on page
@@ -20,9 +25,9 @@ function createItem(listItem, index) {
 
     // header
     if (listItem.drop) {
-        createElement('h2', `${listItem.item.name} - ${listItem.drop}`, `#item-${index}`, 'append', 'title', `title-${index}`);
+        createElement('h3', `${listItem.item.name} - ${listItem.drop}`, `#item-${index}`, 'append', 'title', `title-${index}`);
     } else {
-        createElement('h2', listItem.item.name, `#item-${index}`, 'append', 'title', `title-${index}`);
+        createElement('h3', listItem.item.name, `#item-${index}`, 'append', 'title', `title-${index}`);
     }
 
     // image
@@ -30,7 +35,7 @@ function createItem(listItem, index) {
     let image = document.querySelector(`#img-${index}`);
     image.setAttribute('src', listItem.item.image);
     image.setAttribute('alt', `A picture of a(n) ${listItem.item.name} from BoTW`);
-    
+
     // quantity
     createElement('p', 'Collect: ', `#img-${index}`, 'after', 'quantity-p', `quantity-${index}`);
     createElement('span', '-', `#quantity-${index}`, 'append', 'list-add', `minus-${index}`);
@@ -92,10 +97,57 @@ function updateQuantity(listItem, index) {
 function removeFromList(index) {
     const key = 'list'
     let currentArray = JSON.parse(localStorage.getItem(key));
-    
+
     currentArray.sort((p1, p2) => (p1.item.name > p2.item.name) ? 1 : (p1.item.name < p2.item.name) ? -1 : 0);
     currentArray.splice(index, 1);
     localStorage.setItem(key, JSON.stringify(currentArray));
 
     renderCollectionList()
+}
+
+function getLocations(listItem) {
+
+    // get the array of locations
+    if (listItem.item.common_locations) {
+
+        let locations = listItem.item.common_locations;
+        // loop through array
+        locations.forEach(location => outputLocation(listItem, location))
+
+    } else {
+        //items without a common location
+        outputLocation(listItem, 'no-location', 'No Common Locations')
+    }
+    // listItem.item.common_Locations.forEach(location => console.log(location));
+}
+function outputLocation(listItem, location, noLocationValue) {
+    // check if the header has already been created
+    if (document.querySelector(`#${location.replace(/\s+/g, '-')}`)) {
+
+        // check for drop 
+        if (listItem.drop) {
+            // add item in
+            createElement('p', `${listItem.item.name} - ${listItem.drop} - ${listItem.quantity}`, `#${location.replace(/\s+/g, '-')}`, 'after')
+        } else {
+            // add item in
+            createElement('p', `${listItem.item.name} - ${listItem.quantity}`, `#${location.replace(/\s+/g, '-')}`, 'after')
+        }
+
+    } else {
+        if(noLocationValue){
+// create the header
+createElement('h3', noLocationValue, '.locations-list', 'append', '', `${location.replace(/\s+/g, '-')}`)
+        } else {
+        // create the header
+        createElement('h3', `${location}`, '.locations-list', 'append', '', `${location.replace(/\s+/g, '-')}`)
+        }
+        // check for drop 
+        if (listItem.drop) {
+            // add item in
+            createElement('p', `${listItem.item.name} - ${listItem.drop} - ${listItem.quantity}`, `#${location.replace(/\s+/g, '-')}`, 'after')
+        } else {
+            // add item in
+            createElement('p', `${listItem.item.name} - ${listItem.quantity}`, `#${location.replace(/\s+/g, '-')}`, 'after')
+        }
+    }
 }

@@ -342,3 +342,11 @@ hr {
     vertical-align: middle;
     cursor: pointer;
 }
+
+#list-page .locations-list {
+    padding-left: 20px;
+}
+
+#list-page .locations-list p {
+    padding-left: 20px;
+}
