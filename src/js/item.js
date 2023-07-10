@@ -1,4 +1,4 @@
-import { getParam, menuClick } from "./utils";
+import { getParam, menuClick, searchForm } from "./utils";
 import { createItemInformation } from "./item.mjs";
 
 
@@ -9,3 +9,5 @@ createItemInformation(itemId);
 document.querySelector('#menu').addEventListener('click', () => {
     menuClick();
 });
+
+searchForm();

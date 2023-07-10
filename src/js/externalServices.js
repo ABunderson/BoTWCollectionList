@@ -1,4 +1,4 @@
-const baseURL = 'https://botw-compendium.herokuapp.com/api/v2';
+const baseURL = 'https://botw-compendium.herokuapp.com/api/v3/compendium';
 
 
 
@@ -19,6 +19,12 @@ async function convertToJson(res) {
 
 export async function getItemById(id) {
     const response = await fetch(baseURL + `/entry/${id}`);
+    const data = await convertToJson(response);
+    return data;
+}
+
+export async function getAllItems() {
+    const response = await fetch(baseURL + `/all`);
     const data = await convertToJson(response);
     return data;
 }

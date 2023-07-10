@@ -5,18 +5,8 @@ export async function getRanItemByCategory(category) {
     const items = await getItemsByCategory(category);
 
     let item;
-    if (category == 'creatures') {
-        const ranNum = Math.floor(Math.random() * 11);
+    item = items.data[Math.floor(Math.random() * items.data.length)];
 
-        if (ranNum % 2 == 0) {
-            item = items.data.food[Math.floor(Math.random() * items.data.food.length)];
-        } else {
-            item = items.data.non_food[Math.floor(Math.random() * items.data.non_food.length)];
-        }
-
-    } else {
-        item = items.data[Math.floor(Math.random() * items.data.length)];
-    }
     return item;
 }
 
@@ -57,10 +47,10 @@ export function createQuantityForm(value, buttonMessage, index, quantity) {
     // create form
     let createForm = document.createElement('form');
     createForm.setAttribute('name', `add-${value.replace(/\s+/g, '-')}`);
-    if (index){
+    if (index) {
         createForm.setAttribute('id', `add-${value.replace(/\s+/g, '-')}${index}`);
     } else {
-    createForm.setAttribute('id', `add-${value.replace(/\s+/g, '-')}`);
+        createForm.setAttribute('id', `add-${value.replace(/\s+/g, '-')}`);
     }
 
 
@@ -174,7 +164,7 @@ export async function addToList(formElement, itemId, drop) {
     let item = await getItemById(itemId);
     // console.log(item.data)
     item = item.data;
-    if (drop) { 
+    if (drop) {
         itemArray = { item, 'quantity': json.quantity, 'drop': json.drop };
     } else {
         itemArray = { item, 'quantity': json.quantity };
@@ -182,4 +172,50 @@ export async function addToList(formElement, itemId, drop) {
 
     // console.log(itemArray)
     setLocalStorage('list', itemArray);
+}
+
+export async function renderWithTemplate(template, parentElement, data, position = 'afterbegin', clear = true) {
+    if (clear) {
+      parentElement.innerHTML = "";
+    }
+  
+    const htmlString = await template(data);
+    parentElement.insertAdjacentHTML(position, htmlString);
+  }
+
+  export function loadHeaderFooter() {
+    const headerTemplateFn = loadTemplate("/partials/header.html");
+    // const footerTemplateFn = loadTemplate("/partials/footer.html");
+    const headerLocation = document.querySelector("#main-header");
+    // const footerLocation = document.querySelector("#main-footer");
+  
+    renderWithTemplate(headerTemplateFn, headerLocation);
+    
+    // document.querySelector('#menu').addEventListener('click', () => {
+    //     menuClick();
+    // });
+    // renderWithTemplate(footerTemplateFn, footerLocation);
+  }
+
+  function loadTemplate(path) {
+    // wait what?  we are returning a new function? 
+    // this is called currying and can be very helpful.
+    return async function () {
+      const res = await fetch(path);
+  
+      if (res.ok) {
+        const html = await res.text();
+        return html;
+      }
+    };
+  }
+
+  export function searchForm() {
+    document.forms['search'].addEventListener('submit', (e) => {
+    e.preventDefault();  
+    const formData = formDataToJSON(e.target);
+    let value = formData.searchValue;
+    value = value.toLowerCase();
+    window.location.href = `/category/index.html?search=${value}`
+});
 }
