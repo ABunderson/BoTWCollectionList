@@ -147,8 +147,12 @@ header h1 {
 /* Collection List Page */
 
 #list-page .collection-list {
-
     text-align: left;
+    padding-left: 20px;
+}
+
+#list-page .collection-list img{
+    margin-left: 20px;
 }
 
 #list-page .quantity-p {

@@ -1,15 +1,17 @@
 import { getLocalStorage, createElement, setLocalStorage } from "./utils"
 
+let sortVariable;
+console.log('in outer ' + sortVariable)
+
 export function renderCollectionList(sort) {
 
     const list = getLocalStorage('list');
-    // document.querySelector('.collection-list').innerHTML = '';
 
     // sort here
     list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date ) ? -1 : 0);
 
-
     if (sort === 'nameSort'){
+        sortVariable = sort;
               
         list.sort((p1, p2) => (p1.drop > p2.drop) ? 1 : (p1.drop < p2.drop) ? -1 : 0 || (p1.item.name > p2.item.name) ? 1 : (p1.item.name < p2.item.name) ? -1 : 0);
 
@@ -18,6 +20,7 @@ export function renderCollectionList(sort) {
         }
 
     } else if (sort === 'dateSort'){
+        sortVariable = sort;
         list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date ) ? -1 : 0);
 
         if (checkForSortList(list)){
@@ -25,6 +28,7 @@ export function renderCollectionList(sort) {
         }
 
     } else if (sort === 'quantitySort'){
+        sortVariable = sort;
         list.sort((p1, p2) => (Number(p1.quantity) > Number(p2.quantity)) ? 1 : (Number(p1.quantity) < Number(p2.quantity)) ? -1 : 0);
 
         if (checkForSortList(list)){
@@ -32,6 +36,7 @@ export function renderCollectionList(sort) {
         }
     }
 
+    console.log('in run ' + sortVariable)
     document.querySelector('.collection-list').innerHTML = '';
 
     list.map((listItem, index) =>
@@ -89,7 +94,7 @@ function addToQuantity(listItem, index) {
 
     removeFromList(listItem);
     setLocalStorage('list', listItem);
-    renderCollectionList();
+    renderCollectionList(sortVariable);
 }
 
 function removeFromQuantity(listItem) {
@@ -103,7 +108,7 @@ function removeFromQuantity(listItem) {
     } else {
         removeFromList(listItem);
         setLocalStorage('list', listItem);
-        renderCollectionList();
+        renderCollectionList(sortVariable);
     }
 }
 
@@ -118,11 +123,11 @@ function updateQuantity(listItem, index) {
 
         if (listItem.quantity > 0) {
             setLocalStorage('list', listItem);
-            renderCollectionList();
+            renderCollectionList(sortVariable);
         }
 
     } else {
-        renderCollectionList();
+        renderCollectionList(sortVariable);
     }
 }
 
@@ -134,7 +139,7 @@ function removeFromList(listItem) {
     currentArray.splice(itemPosition, 1);
     localStorage.setItem(key, JSON.stringify(currentArray));
 
-    renderCollectionList()
+    renderCollectionList(sortVariable)
 }
 
 function getLocations(listItem) {
@@ -186,28 +191,19 @@ function outputLocation(listItem, location, noLocationValue) {
 
 function checkForSortList(list){
     const firstItemName = document.getElementsByClassName('title')[0].innerHTML;
-
     const firstItemQuantity = Number(document.querySelector('#quantity-0-number').value);
+
     let sortFirstItemName;
     if (list[0].drop) {
         sortFirstItemName = `${list[0].item.name} - ${list[0].drop}`;
     } else {
         sortFirstItemName = list[0].item.name;
     }
-    
     const sortFirstItemQuantity = Number(list[0].quantity);
-    // console.log(firstItemName)
-    // console.log(sortFirstItemName)
-    // console.log(typeof firstItemQuantity);
-    // console.log(typeof sortFirstItemQuantity);
-    // console.log( firstItemName.localeCompare(sortFirstItemName))
-    const matchValue = firstItemName.localeCompare(sortFirstItemName);
     
     if (0 === firstItemName.localeCompare(sortFirstItemName) && firstItemQuantity === sortFirstItemQuantity){
-        // console.log('already sort')
         return true;
     } else {
-        // console.log('not sorted')
         return false;
     }
 }

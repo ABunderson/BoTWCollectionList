@@ -386,4 +386,5 @@ hr {
 
 #list-page .locations-list p {
     padding-left: 20px;
+    text-transform: capitalize;
 }
