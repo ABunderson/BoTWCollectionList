@@ -1,18 +1,45 @@
 import { getLocalStorage, createElement, setLocalStorage } from "./utils"
 
-export function renderCollectionList() {
+export function renderCollectionList(sort) {
 
     const list = getLocalStorage('list');
-    document.querySelector('.collection-list').innerHTML = '';
+    // document.querySelector('.collection-list').innerHTML = '';
 
-    // sort so they are always in the same order
-    // local storage stores items randomly
-    list.sort((p1, p2) => (p1.item.name > p2.item.name) ? 1 : (p1.item.name < p2.item.name) ? -1 : 0);
+    // sort here
+    list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date ) ? -1 : 0);
+
+
+    if (sort === 'nameSort'){
+              
+        list.sort((p1, p2) => (p1.drop > p2.drop) ? 1 : (p1.drop < p2.drop) ? -1 : 0 || (p1.item.name > p2.item.name) ? 1 : (p1.item.name < p2.item.name) ? -1 : 0);
+
+        if (checkForSortList(list)){
+            list.sort((p1, p2) => (p1.drop < p2.drop) ? 1 : (p1.drop > p2.drop) ? -1 : 0 || (p1.item.name < p2.item.name) ? 1 : (p1.item.name > p2.item.name) ? -1 : 0);
+        }
+
+    } else if (sort === 'dateSort'){
+        list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date ) ? -1 : 0);
+
+        if (checkForSortList(list)){
+            list.sort((p1, p2) => (p1.date < p2.date) ? 1 : (p1.date > p2.date ) ? -1 : 0);
+        }
+
+    } else if (sort === 'quantitySort'){
+        list.sort((p1, p2) => (Number(p1.quantity) > Number(p2.quantity)) ? 1 : (Number(p1.quantity) < Number(p2.quantity)) ? -1 : 0);
+
+        if (checkForSortList(list)){
+            list.sort((p1, p2) => (Number(p1.quantity) < Number(p2.quantity)) ? 1 : (Number(p1.quantity) > Number(p2.quantity)) ? -1 : 0);
+        }
+    }
+
+    document.querySelector('.collection-list').innerHTML = '';
 
     list.map((listItem, index) =>
 
         createItem(listItem, index)
     );
+    //clear locations
+    document.querySelector('.locations-list').innerHTML = '';
 
     // output the different locations to search
     list.forEach(listItem => getLocations(listItem))
@@ -46,7 +73,7 @@ function createItem(listItem, index) {
     createElement('span', ' X', `#quantity-${index}`, 'append', 'remove-item', `remove-item-${index}`);
 
     // listeners
-    document.querySelector(`#remove-item-${index}`).addEventListener('click', () => { removeFromList(index) })
+    document.querySelector(`#remove-item-${index}`).addEventListener('click', () => { removeFromList(listItem) })
     // plus 1
     document.querySelector(`#add-${index}`).addEventListener('click', () => { addToQuantity(listItem, index) })
     // minus 1
@@ -60,19 +87,24 @@ function addToQuantity(listItem, index) {
     number += 1;
     listItem.quantity = number;
 
-    removeFromList(index);
+    removeFromList(listItem);
     setLocalStorage('list', listItem);
     renderCollectionList();
 }
 
-function removeFromQuantity(listItem, index) {
+function removeFromQuantity(listItem) {
     let number = Number(listItem.quantity);
     number -= 1;
     listItem.quantity = number;
 
-    removeFromList(index);
-    setLocalStorage('list', listItem);
-    renderCollectionList();
+    if (number <= 0) {
+        removeFromList(listItem);
+
+    } else {
+        removeFromList(listItem);
+        setLocalStorage('list', listItem);
+        renderCollectionList();
+    }
 }
 
 
@@ -82,7 +114,7 @@ function updateQuantity(listItem, index) {
     if (Number.isInteger(Number(number))) {
 
         listItem.quantity = number;
-        removeFromList(index);
+        removeFromList(listItem);
 
         if (listItem.quantity > 0) {
             setLocalStorage('list', listItem);
@@ -94,12 +126,12 @@ function updateQuantity(listItem, index) {
     }
 }
 
-function removeFromList(index) {
+function removeFromList(listItem) {
     const key = 'list'
     let currentArray = JSON.parse(localStorage.getItem(key));
+    const itemPosition = currentArray.findIndex((item) => item.date == listItem.date);
 
-    currentArray.sort((p1, p2) => (p1.item.name > p2.item.name) ? 1 : (p1.item.name < p2.item.name) ? -1 : 0);
-    currentArray.splice(index, 1);
+    currentArray.splice(itemPosition, 1);
     localStorage.setItem(key, JSON.stringify(currentArray));
 
     renderCollectionList()
@@ -134,12 +166,12 @@ function outputLocation(listItem, location, noLocationValue) {
         }
 
     } else {
-        if(noLocationValue){
-// create the header
-createElement('h3', noLocationValue, '.locations-list', 'append', '', `${location.replace(/\s+/g, '-')}`)
+        if (noLocationValue) {
+            // create the header
+            createElement('h3', noLocationValue, '.locations-list', 'append', '', `${location.replace(/\s+/g, '-')}`)
         } else {
-        // create the header
-        createElement('h3', `${location}`, '.locations-list', 'append', '', `${location.replace(/\s+/g, '-')}`)
+            // create the header
+            createElement('h3', `${location}`, '.locations-list', 'append', '', `${location.replace(/\s+/g, '-')}`)
         }
         // check for drop 
         if (listItem.drop) {
@@ -149,5 +181,33 @@ createElement('h3', noLocationValue, '.locations-list', 'append', '', `${locatio
             // add item in
             createElement('p', `${listItem.item.name} - ${listItem.quantity}`, `#${location.replace(/\s+/g, '-')}`, 'after')
         }
+    }
+}
+
+function checkForSortList(list){
+    const firstItemName = document.getElementsByClassName('title')[0].innerHTML;
+
+    const firstItemQuantity = Number(document.querySelector('#quantity-0-number').value);
+    let sortFirstItemName;
+    if (list[0].drop) {
+        sortFirstItemName = `${list[0].item.name} - ${list[0].drop}`;
+    } else {
+        sortFirstItemName = list[0].item.name;
+    }
+    
+    const sortFirstItemQuantity = Number(list[0].quantity);
+    // console.log(firstItemName)
+    // console.log(sortFirstItemName)
+    // console.log(typeof firstItemQuantity);
+    // console.log(typeof sortFirstItemQuantity);
+    // console.log( firstItemName.localeCompare(sortFirstItemName))
+    const matchValue = firstItemName.localeCompare(sortFirstItemName);
+    
+    if (0 === firstItemName.localeCompare(sortFirstItemName) && firstItemQuantity === sortFirstItemQuantity){
+        // console.log('already sort')
+        return true;
+    } else {
+        // console.log('not sorted')
+        return false;
     }
 }

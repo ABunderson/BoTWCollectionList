@@ -62,14 +62,16 @@ export async function createItemInformation(itemId) {
 function addItemFormListener(itemId) {
     document.forms['add-item'].addEventListener('submit', (e) => {
         e.preventDefault();
-        addToList(e.target, itemId);
+        const date = new Date();
+        addToList(e.target, itemId, date);
     });
 }
 
 function addDropFromListener(formName, itemId){
     document.forms[formName].addEventListener('submit', (e) => {
         e.preventDefault();
-        addToList(e.target, itemId, true);
+        const date = new Date();
+        addToList(e.target, itemId, date, true);
     });
 }
 

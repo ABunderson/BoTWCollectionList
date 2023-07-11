@@ -8,9 +8,8 @@ const search = getParam('search');
 if (category) {
     setHamActiveCategory(category);
     createCategoryCards(category, '.card-list');
+    
     window.addEventListener('load', () => { (setActiveCategory(category)) })
-
-
 }
 
 if (search) {
@@ -20,6 +19,22 @@ if (search) {
 document.querySelector('#menu').addEventListener('click', () => {
     menuClick();
 });
+
+document.querySelector('#category-name-sort').addEventListener('click', () => {
+    if (category){
+        createCategoryCards(category, '.card-list', 'nameSort');
+    } else if (search){
+        handleSearch(search, '.card-list', 'nameSort');
+    }
+})
+
+document.querySelector('#category-id-sort').addEventListener('click', () => {
+    if (category){
+        createCategoryCards(category, '.card-list', 'idSort');
+    } else if (search){
+        handleSearch(search, '.card-list', 'idSort');
+    }
+})
 
 
 searchForm();

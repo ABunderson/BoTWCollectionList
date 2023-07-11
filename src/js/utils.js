@@ -158,16 +158,16 @@ export function menuClick() {
     menuList.classList.toggle('hide');
 }
 
-export async function addToList(formElement, itemId, drop) {
+export async function addToList(formElement, itemId, date, drop) {
     const json = formDataToJSON(formElement)
     let itemArray;
     let item = await getItemById(itemId);
     // console.log(item.data)
     item = item.data;
     if (drop) {
-        itemArray = { item, 'quantity': json.quantity, 'drop': json.drop };
+        itemArray = { item, 'quantity': json.quantity, 'date': date, 'drop': json.drop };
     } else {
-        itemArray = { item, 'quantity': json.quantity };
+        itemArray = { item, 'quantity': json.quantity, 'date': date };
     }
 
     // console.log(itemArray)

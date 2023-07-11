@@ -1,9 +1,10 @@
 import { getItemsByCategory, getAllItems } from './externalServices';
 import { renderListWithTemplate, createElement } from './utils';
 
-export async function createCategoryCards(category, selector) {
+export async function createCategoryCards(category, selector, sort) {
     // get items
-    const items = await getItemsByCategory(category);
+    let items = await getItemsByCategory(category);
+    items = items.data
 
     // add the title
     const pageTitle = document.querySelector('#category-title');
@@ -12,12 +13,29 @@ export async function createCategoryCards(category, selector) {
     // get the html element
     const el = document.querySelector(selector);
 
+    if (sort === 'nameSort') {
+        items.sort((p1, p2) => (p1.name > p2.name) ? 1 : (p1.name < p2.name) ? -1 : 0);
+
+        if (checkForSort(items)) {
+            items.sort((p1, p2) => (p1.name < p2.name) ? 1 : (p1.name > p2.name) ? -1 : 0);
+        }
+    } else if (sort === 'idSort') {
+        items.sort((p1, p2) => (Number(p1.id) > Number(p2.id)) ? 1 : (Number(p1.id) < Number(p2.id)) ? -1 : 0);
+
+        if (checkForSort(items)) {
+            items.sort((p1, p2) => (Number(p1.id) < Number(p2.id)) ? 1 : (Number(p1.id) > Number(p2.id)) ? -1 : 0);
+        }
+    }
+    // clear page
+    el.innerHTML = '';
+
     // send through template
     // render out the product list to the element
-    renderListWithTemplate(cardTemplate, el, items.data);
+    renderListWithTemplate(cardTemplate, el, items);
 
 }
-export async function handleSearch(search, selector) {
+
+export async function handleSearch(search, selector, sort) {
 
     // get list of all items
     let listToSearch = await getAllItems();
@@ -26,10 +44,10 @@ export async function handleSearch(search, selector) {
     let uniqueList = [];
     if (typeof numberCheck == 'number' && !isNaN(numberCheck)) {
         let numberList = [];
-        console.log(listToSearch)
-        console.log(typeof listToSearch.data[0].id)
+        // console.log(listToSearch)
+        // console.log(typeof listToSearch.data[0].id)
         numberList = listToSearch.data.filter(item => item.id.toString().includes(search));
-        console.log(numberList);
+        // console.log(numberList);
         uniqueList = numberList
     } else {
         // console.log(listToSearch.data);
@@ -39,7 +57,7 @@ export async function handleSearch(search, selector) {
         searchedList = listToSearch.data.filter(item => item.name.includes(search));
 
         searchDrop = listToSearch.data.filter(item => filterWithDrops(item, search));
-        console.log(searchDrop)
+        // console.log(searchDrop)
         const addedLists = searchedList.concat(searchDrop);
         uniqueList = [...new Set(addedLists)]
     }
@@ -50,6 +68,24 @@ export async function handleSearch(search, selector) {
 
     // get the html element
     const el = document.querySelector(selector);
+
+    // sort 
+    if (sort === 'nameSort') {
+        uniqueList.sort((p1, p2) => (p1.name > p2.name) ? 1 : (p1.name < p2.name) ? -1 : 0);
+
+        if (checkForSort(uniqueList)) {
+            uniqueList.sort((p1, p2) => (p1.name < p2.name) ? 1 : (p1.name > p2.name) ? -1 : 0);
+        }
+    } else if (sort === 'idSort') {
+        uniqueList.sort((p1, p2) => (Number(p1.id) > Number(p2.id)) ? 1 : (Number(p1.id) < Number(p2.id)) ? -1 : 0);
+
+        if (checkForSort(uniqueList)) {
+            uniqueList.sort((p1, p2) => (Number(p1.id) < Number(p2.id)) ? 1 : (Number(p1.id) > Number(p2.id)) ? -1 : 0);
+        }
+    }
+
+    // clear html
+    el.innerHTML = '';
 
     // send through template
     // render out the product list to the element
@@ -110,4 +146,22 @@ function cardTemplate(item) {
 export function setActiveCategory(selector) {
     let activeCategory = document.querySelector(`#header-end`).querySelector(`.${selector}`)
     activeCategory.setAttribute('class', 'active');
+}
+
+function checkForSort(list) {
+    const firstItemName = document.getElementsByClassName('card-title')[0].innerHTML;
+
+    const sortFirstItemName = list[0].name;
+    // console.log(list)
+    // console.log(firstItemName)
+    // console.log(sortFirstItemName)
+    // console.log( firstItemName.localeCompare(sortFirstItemName))
+
+    if (0 === firstItemName.localeCompare(sortFirstItemName)) {
+        // console.log('already sort')
+        return true;
+    } else {
+        // console.log('not sorted')
+        return false;
+    }
 }
