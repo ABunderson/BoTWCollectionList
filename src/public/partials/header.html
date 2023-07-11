@@ -6,7 +6,7 @@
         <h1>BoTW Collection</h1>
     </a>
     <input type="checkbox" id="menu" name="menu" class="menu-checkbox" class="hide" checked>
-    <div class="menu hide" >
+    <div class="menu hide" onclick="menuClick()">
         <label class="menu-toggle hide" for="menu" id="hamburger"><img src="/images/hamburger.png"
                 alt="A hamburger menu. Icon from icons8"></label>
         <ul id="menu-list" class="hide">
@@ -16,6 +16,14 @@
             <li class="monsters"><a href="/category/index.html?category=monsters">Monsters</a></li>
             <li class="treasure"><a href="/category/index.html?category=treasure">Treasure</a></li>
             <li class="list"><a href="/list/index.html">Collection List</a></li>
+            <li>
+                <form name="ham-search" id="ham-search">
+                    <input type="text" name="hamSearchValue" placeholder="Search" />
+                    <button id="hamSearchButton" type="submit">
+                        <img src="/images/search.svg" alt="search icon from iconfinder.com" />
+                    </button>
+                </form>
+            </li>
         </ul>
 
     </div>
