@@ -155,8 +155,8 @@ function getLocations(listItem) {
         //items without a common location
         outputLocation(listItem, 'no-location', 'No Common Locations')
     }
-    // listItem.item.common_Locations.forEach(location => console.log(location));
 }
+
 function outputLocation(listItem, location, noLocationValue) {
     // check if the header has already been created
     if (document.querySelector(`#${location.replace(/\s+/g, '-')}`)) {
