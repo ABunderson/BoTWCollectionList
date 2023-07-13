@@ -5,5 +5,5 @@ export async function setImages(selector, category) {
     const item = await getRanItemByCategory(category);
     const src = item.image;
     img.setAttribute('src', src);
-    img.setAttribute('alt', `An image of a(n) ${item.name} from BoTW`)
+    img.setAttribute('alt', `An image of a(n) ${item.name} from BoTW`);
 }

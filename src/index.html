@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <header id="main-header">
+    <header>
         <div id="header-start">
             <a href="/index.html">
                 <img src="/images/BoTW.png" id="logo" alt="BoTW Collection logo. A scroll with items to collect on it.">
@@ -32,11 +32,12 @@
                     <li class="monsters"><a href="/category/index.html?category=monsters">Monsters</a></li>
                     <li class="treasure"><a href="/category/index.html?category=treasure">Treasure</a></li>
                     <li class="list"><a href="/list/index.html">Collection List</a></li>
-                    <li><form name="ham-search" id="ham-search">
-                        <input type="text" name="hamSearchValue" placeholder="Search" />
-                        <button id="hamSearchButton" type="submit">
-                            <img src="/images/search.svg" alt="search icon from iconfinder.com" />
-                        </button>
+                    <li>
+                        <form name="ham-search" id="ham-search">
+                            <input required type="text" name="hamSearchValue" placeholder="Search" />
+                            <button id="hamSearchButton" type="submit">
+                                <img src="/images/search.svg" alt="search icon from iconfinder.com" />
+                            </button>
                         </form>
                     </li>
                 </ul>
@@ -57,7 +58,7 @@
                 </div>
             </div>
             <form name="search" id="search">
-                <input type="text" name="searchValue" placeholder="Search" />
+                <input  required type="text" name="searchValue" placeholder="Search" />
                 <button id="searchButton" onclick="window.location.href='#';" type="submit">
                     <img src="/images/search.svg" alt="search icon from iconfinder.com" />
                 </button>

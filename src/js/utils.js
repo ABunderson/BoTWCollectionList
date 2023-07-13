@@ -1,11 +1,9 @@
-import { getItemById, getItemsByCategory } from "./externalServices";
+import { getItemById, getItemsByCategory } from './externalServices';
 
 export async function getRanItemByCategory(category) {
 
     const items = await getItemsByCategory(category);
-
-    let item;
-    item = items.data[Math.floor(Math.random() * items.data.length)];
+    const item = items.data[Math.floor(Math.random() * items.data.length)];
 
     return item;
 }
@@ -53,7 +51,6 @@ export function createQuantityForm(value, buttonMessage, index, quantity) {
         createForm.setAttribute('id', `add-${value.replace(/\s+/g, '-')}`);
     }
 
-
     // hidden input
     let createHiddenInput = document.createElement('input');
     createHiddenInput.setAttribute('hidden', '');
@@ -69,9 +66,7 @@ export function createQuantityForm(value, buttonMessage, index, quantity) {
     // label
     let createLabel = document.createElement('label');
     createLabel.setAttribute('for', 'quantity');
-    // createLabel.innerHTML = `Add ${value}`;
     createLabel.innerHTML = `Quantity`;
-
     createForm.append(createLabel);
 
     // input
@@ -82,6 +77,7 @@ export function createQuantityForm(value, buttonMessage, index, quantity) {
     } else {
         createInput.setAttribute('value', 1);
     }
+
     createInput.setAttribute('name', 'quantity');
     createInput.setAttribute('type', 'number');
     createForm.append(createInput);
@@ -93,13 +89,10 @@ export function createQuantityForm(value, buttonMessage, index, quantity) {
     createForm.append(createButton);
 
     return createForm;
-    // createdElement.after(createForm);
-    // createElement('hr', '', `#add-drop-${value.replace(/\s+/g, '-')}`);
-
 }
 
 export function setHamActiveCategory(selector) {
-    let activeCategory = document.querySelector(`#header-start`).querySelector(`.${selector}`)
+    let activeCategory = document.querySelector(`#header-start`).querySelector(`.${selector}`);
     activeCategory.setAttribute('class', 'active');
 }
 
@@ -107,10 +100,10 @@ export function createElement(element, value, insertionId, position, classAtribu
     let createElement = document.createElement(element);
     createElement.innerHTML = value;
     if (classAtribute) {
-        createElement.setAttribute('class', classAtribute)
+        createElement.setAttribute('class', classAtribute);
     }
     if (id) {
-        createElement.setAttribute('id', id)
+        createElement.setAttribute('id', id);
     }
     if (position === 'after') {
         document.querySelector(insertionId).after(createElement);
@@ -159,11 +152,12 @@ export function menuClick() {
 }
 
 export async function addToList(formElement, itemId, date, drop) {
-    const json = formDataToJSON(formElement)
+    const json = formDataToJSON(formElement);
     let itemArray;
     let item = await getItemById(itemId);
     // console.log(item.data)
     item = item.data;
+    
     if (drop) {
         itemArray = { item, 'quantity': json.quantity, 'date': date, 'drop': json.drop };
     } else {
@@ -174,42 +168,6 @@ export async function addToList(formElement, itemId, date, drop) {
     setLocalStorage('list', itemArray);
 }
 
-export async function renderWithTemplate(template, parentElement, data, position = 'afterbegin', clear = true) {
-    if (clear) {
-        parentElement.innerHTML = "";
-    }
-
-    const htmlString = await template(data);
-    parentElement.insertAdjacentHTML(position, htmlString);
-}
-
-export function loadHeaderFooter() {
-    const headerTemplateFn = loadTemplate("/partials/header.html");
-    // const footerTemplateFn = loadTemplate("/partials/footer.html");
-    const headerLocation = document.querySelector("#main-header");
-    // const footerLocation = document.querySelector("#main-footer");
-
-    renderWithTemplate(headerTemplateFn, headerLocation);
-
-    // document.querySelector('#menu').addEventListener('click', () => {
-    //     menuClick();
-    // });
-    // renderWithTemplate(footerTemplateFn, footerLocation);
-}
-
-function loadTemplate(path) {
-    // wait what?  we are returning a new function? 
-    // this is called currying and can be very helpful.
-    return async function () {
-        const res = await fetch(path);
-
-        if (res.ok) {
-            const html = await res.text();
-            return html;
-        }
-    };
-}
-
 export function searchForm() {
     // large search bar
     document.forms['search'].addEventListener('submit', (e) => {
@@ -218,9 +176,8 @@ export function searchForm() {
         let value = formData.searchValue;
         value = value.toLowerCase();
         window.location.href = `/category/index.html?search=${value}`
-
-
     });
+
     // Hamburger search
     document.forms['ham-search'].addEventListener('submit', (e) => {
         e.preventDefault();
@@ -228,6 +185,13 @@ export function searchForm() {
         let value = formData.hamSearchValue;
         value = value.toLowerCase();
         window.location.href = `/category/index.html?search=${value}`
-
     });
+}
+
+export function addCustomToList(formData) {
+    const jsonForm = formDataToJSON(formData);
+    const item = { 'name': jsonForm.item };
+    const date = new Date();
+    const itemArray = { item, 'quantity': jsonForm.quan, 'date': date };
+    setLocalStorage('list', itemArray);
 }

@@ -32,11 +32,12 @@
                     <li class="monsters"><a href="/category/index.html?category=monsters">Monsters</a></li>
                     <li class="treasure"><a href="/category/index.html?category=treasure">Treasure</a></li>
                     <li class="list"><a href="/list/index.html">Collection List</a></li>
-                    <li><form name="ham-search" id="ham-search">
-                        <input type="text" name="hamSearchValue" placeholder="Search" />
-                        <button id="hamSearchButton" type="submit">
-                            <img src="/images/search.svg" alt="search icon from iconfinder.com" />
-                        </button>
+                    <li>
+                        <form name="ham-search" id="ham-search">
+                            <input required type="text" name="hamSearchValue" placeholder="Search" />
+                            <button id="hamSearchButton" type="submit">
+                                <img src="/images/search.svg" alt="search icon from iconfinder.com" />
+                            </button>
                         </form>
                     </li>
                 </ul>
@@ -57,7 +58,7 @@
                 </div>
             </div>
             <form name="search" id="search">
-                <input type="text" name="searchValue" placeholder="Search" />
+                <input  required type="text" name="searchValue" placeholder="Search" />
                 <button id="searchButton" onclick="window.location.href='#';" type="submit">
                     <img src="/images/search.svg" alt="search icon from iconfinder.com" />
                 </button>
@@ -71,10 +72,12 @@
 
     <main id="category-page" class="content">
         <h1 class="title" id="category-title"></h1>
+        <div id="category-items">
         <h2>Sort:</h2>
         <button id="category-name-sort">Name</button>
         <button id="category-id-sort">Id</button>
         <ul class="card-list"></ul>
+        </div>
     </main>
     <footer>
         <div id="footer-flex">

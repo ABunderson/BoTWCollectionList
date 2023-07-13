@@ -1,53 +1,60 @@
-import { getLocalStorage, createElement, setLocalStorage } from "./utils"
+import { getLocalStorage, createElement, setLocalStorage } from './utils';
 
 let sortVariable;
-console.log('in outer ' + sortVariable)
+// console.log('in outer ' + sortVariable)
 
 export function renderCollectionList(sort) {
 
     const list = getLocalStorage('list');
 
-    // sort here
-    list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date ) ? -1 : 0);
+    if (list.length === 0) {
+        // console.log('empty list')
+        document.querySelector('#collection-items').innerHTML = '';
+        createElement('h2', `Looks like you don't have any items. Add some to start your list!`, '#main-collection-header', 'after');
+        return;
+    }
 
-    if (sort === 'nameSort'){
+    // sort here
+    list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date) ? -1 : 0);
+
+    if (sort === 'nameSort') {
         sortVariable = sort;
-              
+
         list.sort((p1, p2) => (p1.drop > p2.drop) ? 1 : (p1.drop < p2.drop) ? -1 : 0 || (p1.item.name > p2.item.name) ? 1 : (p1.item.name < p2.item.name) ? -1 : 0);
 
-        if (checkForSortList(list)){
+        if (checkForSortList(list)) {
             list.sort((p1, p2) => (p1.drop < p2.drop) ? 1 : (p1.drop > p2.drop) ? -1 : 0 || (p1.item.name < p2.item.name) ? 1 : (p1.item.name > p2.item.name) ? -1 : 0);
         }
 
-    } else if (sort === 'dateSort'){
+    } else if (sort === 'dateSort') {
         sortVariable = sort;
-        list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date ) ? -1 : 0);
+        list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date) ? -1 : 0);
 
-        if (checkForSortList(list)){
-            list.sort((p1, p2) => (p1.date < p2.date) ? 1 : (p1.date > p2.date ) ? -1 : 0);
+        if (checkForSortList(list)) {
+            list.sort((p1, p2) => (p1.date < p2.date) ? 1 : (p1.date > p2.date) ? -1 : 0);
         }
 
-    } else if (sort === 'quantitySort'){
+    } else if (sort === 'quantitySort') {
         sortVariable = sort;
         list.sort((p1, p2) => (Number(p1.quantity) > Number(p2.quantity)) ? 1 : (Number(p1.quantity) < Number(p2.quantity)) ? -1 : 0);
 
-        if (checkForSortList(list)){
+        if (checkForSortList(list)) {
             list.sort((p1, p2) => (Number(p1.quantity) < Number(p2.quantity)) ? 1 : (Number(p1.quantity) > Number(p2.quantity)) ? -1 : 0);
         }
     }
 
-    console.log('in run ' + sortVariable)
+    // console.log('in run ' + sortVariable)
     document.querySelector('.collection-list').innerHTML = '';
 
     list.map((listItem, index) =>
-
         createItem(listItem, index)
     );
+
     //clear locations
     document.querySelector('.locations-list').innerHTML = '';
 
     // output the different locations to search
-    list.forEach(listItem => getLocations(listItem))
+    list.forEach(listItem => getLocations(listItem));
 }
 
 // function that works for 1 item to output it on page
@@ -63,28 +70,36 @@ function createItem(listItem, index) {
     }
 
     // image
-    createElement('img', '', `#title-${index}`, 'after', 'list-img', `img-${index}`);
-    let image = document.querySelector(`#img-${index}`);
-    image.setAttribute('src', listItem.item.image);
-    image.setAttribute('alt', `A picture of a(n) ${listItem.item.name} from BoTW`);
+    if (listItem.item.image) {
+        createElement('img', '', `#title-${index}`, 'after', 'list-img', `img-${index}`);
+        let image = document.querySelector(`#img-${index}`);
+        image.setAttribute('src', listItem.item.image);
+        image.setAttribute('alt', `A picture of a(n) ${listItem.item.name} from BoTW`);
+
+        // start quantity
+        createElement('p', 'Collect: ', `#img-${index}`, 'after', 'quantity-p', `quantity-${index}`);
+    } else {
+        // start quantity
+        createElement('p', 'Collect: ', `#title-${index}`, 'after', 'quantity-p', `quantity-${index}`);
+    }
 
     // quantity
-    createElement('p', 'Collect: ', `#img-${index}`, 'after', 'quantity-p', `quantity-${index}`);
+
     createElement('span', '-', `#quantity-${index}`, 'append', 'list-add', `minus-${index}`);
-    createElement('input', '', `#quantity-${index}`, 'append', 'list-number', `quantity-${index}-number`)
+    createElement('input', '', `#quantity-${index}`, 'append', 'list-number', `quantity-${index}-number`);
     let quantity = document.querySelector(`#quantity-${index}-number`);
     quantity.setAttribute('value', listItem.quantity);
     createElement('span', '+', `#quantity-${index}`, 'append', 'list-minus', `add-${index}`);
     createElement('span', ' X', `#quantity-${index}`, 'append', 'remove-item', `remove-item-${index}`);
 
     // listeners
-    document.querySelector(`#remove-item-${index}`).addEventListener('click', () => { removeFromList(listItem) })
+    document.querySelector(`#remove-item-${index}`).addEventListener('click', () => { removeFromList(listItem) });
     // plus 1
-    document.querySelector(`#add-${index}`).addEventListener('click', () => { addToQuantity(listItem, index) })
+    document.querySelector(`#add-${index}`).addEventListener('click', () => { addToQuantity(listItem, index) });
     // minus 1
-    document.querySelector(`#minus-${index}`).addEventListener('click', () => { removeFromQuantity(listItem, index) })
+    document.querySelector(`#minus-${index}`).addEventListener('click', () => { removeFromQuantity(listItem, index) });
     // update value
-    document.querySelector(`#quantity-${index}-number`).addEventListener('change', () => { updateQuantity(listItem, index) })
+    document.querySelector(`#quantity-${index}-number`).addEventListener('change', () => { updateQuantity(listItem, index) });
 }
 
 function addToQuantity(listItem, index) {
@@ -132,14 +147,14 @@ function updateQuantity(listItem, index) {
 }
 
 function removeFromList(listItem) {
-    const key = 'list'
+    const key = 'list';
     let currentArray = JSON.parse(localStorage.getItem(key));
     const itemPosition = currentArray.findIndex((item) => item.date == listItem.date);
 
     currentArray.splice(itemPosition, 1);
     localStorage.setItem(key, JSON.stringify(currentArray));
 
-    renderCollectionList(sortVariable)
+    renderCollectionList(sortVariable);
 }
 
 function getLocations(listItem) {
@@ -149,11 +164,13 @@ function getLocations(listItem) {
 
         let locations = listItem.item.common_locations;
         // loop through array
-        locations.forEach(location => outputLocation(listItem, location))
+        locations.forEach(location =>
+            outputLocation(listItem, location)
+        )
 
     } else {
         //items without a common location
-        outputLocation(listItem, 'no-location', 'No Common Locations')
+        outputLocation(listItem, 'no-location', 'No Common Locations');
     }
 }
 
@@ -164,32 +181,32 @@ function outputLocation(listItem, location, noLocationValue) {
         // check for drop 
         if (listItem.drop) {
             // add item in
-            createElement('p', `${listItem.item.name} - ${listItem.drop} - ${listItem.quantity}`, `#${location.replace(/\s+/g, '-')}`, 'after')
+            createElement('p', `${listItem.item.name} - ${listItem.drop} - ${listItem.quantity}`, `#${location.replace(/\s+/g, '-')}`, 'after');
         } else {
             // add item in
-            createElement('p', `${listItem.item.name} - ${listItem.quantity}`, `#${location.replace(/\s+/g, '-')}`, 'after')
+            createElement('p', `${listItem.item.name} - ${listItem.quantity}`, `#${location.replace(/\s+/g, '-')}`, 'after');
         }
 
     } else {
         if (noLocationValue) {
             // create the header
-            createElement('h3', noLocationValue, '.locations-list', 'append', '', `${location.replace(/\s+/g, '-')}`)
+            createElement('h3', noLocationValue, '.locations-list', 'append', '', `${location.replace(/\s+/g, '-')}`);
         } else {
             // create the header
-            createElement('h3', `${location}`, '.locations-list', 'append', '', `${location.replace(/\s+/g, '-')}`)
+            createElement('h3', `${location}`, '.locations-list', 'append', '', `${location.replace(/\s+/g, '-')}`);
         }
         // check for drop 
         if (listItem.drop) {
             // add item in
-            createElement('p', `${listItem.item.name} - ${listItem.drop} - ${listItem.quantity}`, `#${location.replace(/\s+/g, '-')}`, 'after')
+            createElement('p', `${listItem.item.name} - ${listItem.drop} - ${listItem.quantity}`, `#${location.replace(/\s+/g, '-')}`, 'after');
         } else {
             // add item in
-            createElement('p', `${listItem.item.name} - ${listItem.quantity}`, `#${location.replace(/\s+/g, '-')}`, 'after')
+            createElement('p', `${listItem.item.name} - ${listItem.quantity}`, `#${location.replace(/\s+/g, '-')}`, 'after');
         }
     }
 }
 
-function checkForSortList(list){
+function checkForSortList(list) {
     const firstItemName = document.getElementsByClassName('title')[0].innerHTML;
     const firstItemQuantity = Number(document.querySelector('#quantity-0-number').value);
 
@@ -200,8 +217,8 @@ function checkForSortList(list){
         sortFirstItemName = list[0].item.name;
     }
     const sortFirstItemQuantity = Number(list[0].quantity);
-    
-    if (0 === firstItemName.localeCompare(sortFirstItemName) && firstItemQuantity === sortFirstItemQuantity){
+
+    if (0 === firstItemName.localeCompare(sortFirstItemName) && firstItemQuantity === sortFirstItemQuantity) {
         return true;
     } else {
         return false;

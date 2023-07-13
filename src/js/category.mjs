@@ -4,7 +4,8 @@ import { renderListWithTemplate, createElement } from './utils';
 export async function createCategoryCards(category, selector, sort) {
     // get items
     let items = await getItemsByCategory(category);
-    items = items.data
+    items = items.data;
+    console.log(items);
 
     // add the title
     const pageTitle = document.querySelector('#category-title');
@@ -48,7 +49,7 @@ export async function handleSearch(search, selector, sort) {
         // console.log(typeof listToSearch.data[0].id)
         numberList = listToSearch.data.filter(item => item.id.toString().includes(search));
         // console.log(numberList);
-        uniqueList = numberList
+        uniqueList = numberList;
     } else {
         // console.log(listToSearch.data);
         let searchedList = [];
@@ -59,12 +60,21 @@ export async function handleSearch(search, selector, sort) {
         searchDrop = listToSearch.data.filter(item => filterWithDrops(item, search));
         // console.log(searchDrop)
         const addedLists = searchedList.concat(searchDrop);
-        uniqueList = [...new Set(addedLists)]
+        uniqueList = [...new Set(addedLists)];
     }
+
+
 
     // add the title
     const pageTitle = document.querySelector('#category-title');
     pageTitle.innerHTML = `Search for: ${search}`;
+
+    // make sure there is something returned
+    if (uniqueList.length === 0) {
+        createElement('h2', 'Looks like nothing matches your search', '#category-title', 'after');
+        document.querySelector('#category-items').innerHTML = '';
+        return;
+    }
 
     // get the html element
     const el = document.querySelector(selector);
@@ -102,7 +112,7 @@ function filterWithDrops(item, search) {
         let check = false;
         item.drops.forEach((drop) => {
             if (drop.includes(search)) {
-                check = true
+                check = true;
             }
         })
         if (check) {
@@ -144,18 +154,13 @@ function cardTemplate(item) {
 }
 
 export function setActiveCategory(selector) {
-    let activeCategory = document.querySelector(`#header-end`).querySelector(`.${selector}`)
+    const activeCategory = document.querySelector(`#header-end`).querySelector(`.${selector}`);
     activeCategory.setAttribute('class', 'active');
 }
 
 function checkForSort(list) {
     const firstItemName = document.getElementsByClassName('card-title')[0].innerHTML;
-
     const sortFirstItemName = list[0].name;
-    // console.log(list)
-    // console.log(firstItemName)
-    // console.log(sortFirstItemName)
-    // console.log( firstItemName.localeCompare(sortFirstItemName))
 
     if (0 === firstItemName.localeCompare(sortFirstItemName)) {
         // console.log('already sort')
@@ -164,4 +169,28 @@ function checkForSort(list) {
         // console.log('not sorted')
         return false;
     }
+}
+
+export function handleEmpty() {
+    document.querySelector('#category-title').innerHTML = 'Sorry it looks like there are no items here.';
+    document.querySelector('#category-items').innerHTML = '';
+}
+
+export function categorySortSelectors(category, search) {
+
+    document.querySelector('#category-name-sort').addEventListener('click', () => {
+        if (category) {
+            createCategoryCards(category, '.card-list', 'nameSort');
+        } else if (search) {
+            handleSearch(search, '.card-list', 'nameSort');
+        }
+    })
+
+    document.querySelector('#category-id-sort').addEventListener('click', () => {
+        if (category) {
+            createCategoryCards(category, '.card-list', 'idSort');
+        } else if (search) {
+            handleSearch(search, '.card-list', 'idSort');
+        }
+    })
 }

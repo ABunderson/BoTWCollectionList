@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/css/medium.css" media="(min-width: 575px)">
     <link rel="stylesheet" type="text/css" href="/css/large.css" media="(min-width: 890px)">
     <script src="/js/list.js" type="module"></script>
-    <link href="/images/icon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 </head>
 
 <body>
@@ -32,11 +32,12 @@
                     <li class="monsters"><a href="/category/index.html?category=monsters">Monsters</a></li>
                     <li class="treasure"><a href="/category/index.html?category=treasure">Treasure</a></li>
                     <li class="list"><a href="/list/index.html">Collection List</a></li>
-                    <li><form name="ham-search" id="ham-search">
-                        <input type="text" name="hamSearchValue" placeholder="Search" />
-                        <button id="hamSearchButton" type="submit">
-                            <img src="/images/search.svg" alt="search icon from iconfinder.com" />
-                        </button>
+                    <li>
+                        <form name="ham-search" id="ham-search">
+                            <input required type="text" name="hamSearchValue" placeholder="Search" />
+                            <button id="hamSearchButton" type="submit">
+                                <img src="/images/search.svg" alt="search icon from iconfinder.com" />
+                            </button>
                         </form>
                     </li>
                 </ul>
@@ -57,7 +58,7 @@
                 </div>
             </div>
             <form name="search" id="search">
-                <input type="text" name="searchValue" placeholder="Search" />
+                <input  required type="text" name="searchValue" placeholder="Search" />
                 <button id="searchButton" onclick="window.location.href='#';" type="submit">
                     <img src="/images/search.svg" alt="search icon from iconfinder.com" />
                 </button>
@@ -70,18 +71,84 @@
     </header>
 
     <main id="list-page" class="content">
-        <h1>Collection List</h1>
+        <h1 id="main-collection-header">Collection List</h1>
         <div id="collection-items">
-        <h2>Sort:</h2>
-        <button id="list-date-sort">Time Added</button>
-        <button id="list-quantity-sort">Quantity</button>
-        <button id="list-name-sort">Name</button>
-        <h2>Items to Collect</h2>
-        <div class="collection-list"></div>
+            <h2>Sort:</h2>
+            <button id="list-date-sort">Time Added</button>
+            <button id="list-quantity-sort">Quantity</button>
+            <button id="list-name-sort">Name</button>
+            <h2>Items to Collect</h2>
+            <div class="collection-list"></div>
 
-        <h2>Locations to Search</h2>
-        <div class="locations-list"></div>
+            <h2>Locations to Search</h2>
+            <div class="locations-list"></div>
         </div>
+        <h2>Add Custom Item</h2>
+            <form name="custom-item">
+                <label for="item">Name:</label>
+                <input required type="text" id="item" name="item">
+                <label for="quan">Quantity:</label>
+                <input required type="number" id="quan" name="quan">
+                <label for="loc">Location:</label>
+                <input list="loc" type="text" name="loc" required>
+                <datalist id="loc">
+                    <option value="No Common Locations"></option>
+                    <option value="Akkala Highlands"></option>
+                    <option value="Akkala Sea"></option>
+
+                    <option value="Crenel Peak"></option>
+
+                    <option value="Death Mountain"></option>
+                    <option value="Deep Akkala"></option>
+                    <option value="Divine Beast Vah Medoh"></option>
+                    <option value="Divine Beast Vah Naboris"></option>
+                    <option value="Divine Beast Vah Rudania"></option>
+                    <option value="Divine Beast Vah Ruta"></option>
+
+                    <option value="East Necluda"></option>
+                    <option value="Eldin Canyon"></option>
+                    <option value="Eldin Mountains"></option>
+
+                    <option value="Faron"></option>
+                    <option value="Faron Grasslands"></option>
+                    <option value="Floria Bridge"></option>
+
+                    <option value="Gerudo Desert"></option>
+                    <option value="Gerudo Highlands"></option>
+                    <option value="Gerudo Town"></option>
+                    <option value="Greater Hyrule"></option>
+                    <option value="Great Hyrule Forest"></option>
+
+                    <option value="Hebra Mountains"></option>
+                    <option value="Hyrule Castle"></option>
+                    <option value="Hyrule Field"></option>
+                    <option value="Hyrule Ridge"></option>
+
+                    <option value="Kakariko Village"></option>
+
+                    <option value="Lake Floria"></option>
+                    <option value="Lake Hylia"></option>
+                    <option value="Lanayru Great Spring"></option>
+                    <option value="Lanayru Sea"></option>
+                    <option value="Lanayru Wetlands"></option>
+
+                    <option value="Mount Lanayru"></option>
+
+                    <option value="Necluda Sea"></option>
+
+                    <option value="Rito Stable"></option>
+
+                    <option value="Seres Scablands"></option>
+                    <option value="Satori Mountain"></option>
+
+                    <option value="Tabantha Frontier"></option>
+
+                    <option value="West Necluda"></option>
+                    <option value="Yiga Clan Hideout"></option>
+
+                </datalist>
+                <button type="submit">Add Item</button>
+            </form>
 
 
     </main>
