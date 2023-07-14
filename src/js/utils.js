@@ -157,7 +157,7 @@ export async function addToList(formElement, itemId, date, drop) {
     let item = await getItemById(itemId);
     // console.log(item.data)
     item = item.data;
-    
+
     if (drop) {
         itemArray = { item, 'quantity': json.quantity, 'date': date, 'drop': json.drop };
     } else {
@@ -166,6 +166,7 @@ export async function addToList(formElement, itemId, date, drop) {
 
     // console.log(itemArray)
     setLocalStorage('list', itemArray);
+    window.location = `/item/index.html?itemId=${itemId}`;
 }
 
 export function searchForm() {
@@ -190,8 +191,15 @@ export function searchForm() {
 
 export function addCustomToList(formData) {
     const jsonForm = formDataToJSON(formData);
-    const item = { 'name': jsonForm.item };
+    let item;
     const date = new Date();
+    
+    if (jsonForm.loc1 && !jsonForm.loc2){
+        item = { 'name': jsonForm.item, 'common_locations': [jsonForm.loc1]};
+    } else {
+        item = { 'name': jsonForm.item, 'common_locations': [jsonForm.loc1, jsonForm.loc2]};
+    }
     const itemArray = { item, 'quantity': jsonForm.quan, 'date': date };
+    console.log(itemArray)
     setLocalStorage('list', itemArray);
 }

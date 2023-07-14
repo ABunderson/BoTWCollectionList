@@ -7,12 +7,20 @@ export function renderCollectionList(sort) {
 
     const list = getLocalStorage('list');
 
-    if (list.length === 0) {
+    if (list === null) {
+        // console.log('list null')
+        document.querySelector('#collection-items').innerHTML = '';
+        createElement('h2', `Looks like you don't have any items. Add some to start your list!`, '#main-collection-header', 'after');
+        return;
+    } else if (list.length <= 0) {
+        // console.log(list)
         // console.log('empty list')
         document.querySelector('#collection-items').innerHTML = '';
         createElement('h2', `Looks like you don't have any items. Add some to start your list!`, '#main-collection-header', 'after');
         return;
     }
+
+    listSortSelectors()
 
     // sort here
     list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date) ? -1 : 0);
@@ -93,7 +101,7 @@ function createItem(listItem, index) {
     createElement('span', ' X', `#quantity-${index}`, 'append', 'remove-item', `remove-item-${index}`);
 
     // listeners
-    document.querySelector(`#remove-item-${index}`).addEventListener('click', () => { removeFromList(listItem) });
+    document.querySelector(`#remove-item-${index}`).addEventListener('click', () => { removeFromList(listItem, true) });
     // plus 1
     document.querySelector(`#add-${index}`).addEventListener('click', () => { addToQuantity(listItem, index) });
     // minus 1
@@ -107,7 +115,7 @@ function addToQuantity(listItem, index) {
     number += 1;
     listItem.quantity = number;
 
-    removeFromList(listItem);
+    removeFromList(listItem, false);
     setLocalStorage('list', listItem);
     renderCollectionList(sortVariable);
 }
@@ -118,10 +126,10 @@ function removeFromQuantity(listItem) {
     listItem.quantity = number;
 
     if (number <= 0) {
-        removeFromList(listItem);
+        removeFromList(listItem, true);
 
     } else {
-        removeFromList(listItem);
+        removeFromList(listItem, false);
         setLocalStorage('list', listItem);
         renderCollectionList(sortVariable);
     }
@@ -134,7 +142,7 @@ function updateQuantity(listItem, index) {
     if (Number.isInteger(Number(number))) {
 
         listItem.quantity = number;
-        removeFromList(listItem);
+        removeFromList(listItem, false);
 
         if (listItem.quantity > 0) {
             setLocalStorage('list', listItem);
@@ -146,7 +154,7 @@ function updateQuantity(listItem, index) {
     }
 }
 
-function removeFromList(listItem) {
+function removeFromList(listItem, reload) {
     const key = 'list';
     let currentArray = JSON.parse(localStorage.getItem(key));
     const itemPosition = currentArray.findIndex((item) => item.date == listItem.date);
@@ -154,7 +162,9 @@ function removeFromList(listItem) {
     currentArray.splice(itemPosition, 1);
     localStorage.setItem(key, JSON.stringify(currentArray));
 
-    renderCollectionList(sortVariable);
+    if (reload) {
+        renderCollectionList(sortVariable);
+    }
 }
 
 function getLocations(listItem) {
@@ -223,4 +233,20 @@ function checkForSortList(list) {
     } else {
         return false;
     }
+}
+
+function listSortSelectors() {
+
+    document.querySelector('#list-name-sort').addEventListener('click', () => {
+        // console.log('name sort')
+        renderCollectionList('nameSort');
+    })
+
+    document.querySelector('#list-date-sort').addEventListener('click', () => {
+        renderCollectionList('dateSort');
+    })
+
+    document.querySelector('#list-quantity-sort').addEventListener('click', () => {
+        renderCollectionList('quantitySort');
+    })
 }

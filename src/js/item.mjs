@@ -65,12 +65,11 @@ export async function createItemInformation(itemId) {
     addItemFormListener(itemId);
 }
 
-function addItemFormListener(itemId) {
+async function addItemFormListener(itemId) {
     document.forms['add-item'].addEventListener('submit', (e) => {
         e.preventDefault();
         const date = new Date();
         addToList(e.target, itemId, date);
-        window.location = `/item/index.html?itemId=${itemId}`;
     });
 }
 
@@ -79,7 +78,5 @@ function addDropFromListener(formName, itemId) {
         e.preventDefault();
         const date = new Date();
         addToList(e.target, itemId, date, true);
-        window.location = `/item/index.html?itemId=${itemId}`;
     });
 }
-
