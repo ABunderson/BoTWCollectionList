@@ -17,19 +17,24 @@ document.forms['custom-item'].addEventListener('submit', (e) => {
     window.location = '/list/index.html';
 });
 
-if (document.querySelector('.collection-list')) {
+try{
     document.querySelector('#list-name-sort').addEventListener('click', () => {
-        console.log('name sort')
+        // console.log('name sort')
         renderCollectionList('nameSort');
     })
 
     document.querySelector('#list-date-sort').addEventListener('click', () => {
-        console.log('date sort')
+        // console.log('date sort')
         renderCollectionList('dateSort');
     })
 
     document.querySelector('#list-quantity-sort').addEventListener('click', () => {
-        console.log('quan sort')
+        // console.log('quan sort')
         renderCollectionList('quantitySort');
     })
+} catch(e){
+    // console.log('the list is empty')
 }
+
+
+

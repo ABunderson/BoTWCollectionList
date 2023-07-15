@@ -3,36 +3,41 @@ import { renderListWithTemplate, createElement } from './utils';
 
 export async function createCategoryCards(category, selector, sort) {
     // get items
-    let items = await getItemsByCategory(category);
-    items = items.data;
-    console.log(items);
+    try {
+        let items = await getItemsByCategory(category);
+        items = items.data;
+        // console.log(items);
 
-    // add the title
-    const pageTitle = document.querySelector('#category-title');
-    pageTitle.innerHTML = category;
+        // add the title
+        const pageTitle = document.querySelector('#category-title');
+        pageTitle.innerHTML = category;
 
-    // get the html element
-    const el = document.querySelector(selector);
+        // get the html element
+        const el = document.querySelector(selector);
 
-    if (sort === 'nameSort') {
-        items.sort((p1, p2) => (p1.name > p2.name) ? 1 : (p1.name < p2.name) ? -1 : 0);
+        if (sort === 'nameSort') {
+            items.sort((p1, p2) => (p1.name > p2.name) ? 1 : (p1.name < p2.name) ? -1 : 0);
 
-        if (checkForSort(items)) {
-            items.sort((p1, p2) => (p1.name < p2.name) ? 1 : (p1.name > p2.name) ? -1 : 0);
+            if (checkForSort(items)) {
+                items.sort((p1, p2) => (p1.name < p2.name) ? 1 : (p1.name > p2.name) ? -1 : 0);
+            }
+        } else if (sort === 'idSort') {
+            items.sort((p1, p2) => (Number(p1.id) > Number(p2.id)) ? 1 : (Number(p1.id) < Number(p2.id)) ? -1 : 0);
+
+            if (checkForSort(items)) {
+                items.sort((p1, p2) => (Number(p1.id) < Number(p2.id)) ? 1 : (Number(p1.id) > Number(p2.id)) ? -1 : 0);
+            }
         }
-    } else if (sort === 'idSort') {
-        items.sort((p1, p2) => (Number(p1.id) > Number(p2.id)) ? 1 : (Number(p1.id) < Number(p2.id)) ? -1 : 0);
+        // clear page
+        el.innerHTML = '';
 
-        if (checkForSort(items)) {
-            items.sort((p1, p2) => (Number(p1.id) < Number(p2.id)) ? 1 : (Number(p1.id) > Number(p2.id)) ? -1 : 0);
-        }
+        // send through template
+        // render out the product list to the element
+        renderListWithTemplate(cardTemplate, el, items);
+    } catch (e) {
+        handleEmpty();
+        console.log('catch')
     }
-    // clear page
-    el.innerHTML = '';
-
-    // send through template
-    // render out the product list to the element
-    renderListWithTemplate(cardTemplate, el, items);
 
 }
 

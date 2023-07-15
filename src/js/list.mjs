@@ -5,64 +5,62 @@ let sortVariable;
 
 export function renderCollectionList(sort) {
 
-    const list = getLocalStorage('list');
-    console.log(sort)
+    try {
 
-    if (list === null) {
-        // console.log('list null')
-        document.querySelector('#collection-items').innerHTML = '';
-        createElement('h2', `Looks like you don't have any items. Add some to start your list!`, '#main-collection-header', 'after');
-        return;
-    } else if (list.length <= 0) {
-        // console.log(list)
-        // console.log('empty list')
-        document.querySelector('#collection-items').innerHTML = '';
-        createElement('h2', `Looks like you don't have any items. Add some to start your list!`, '#main-collection-header', 'after');
-        return;
-    }
+        const list = getLocalStorage('list');
+        // console.log(sort)
 
-
-    // sort here
-    list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date) ? -1 : 0);
-
-    if (sort === 'nameSort') {
-        sortVariable = sort;
-
-        list.sort((p1, p2) => (p1.drop > p2.drop) ? 1 : (p1.drop < p2.drop) ? -1 : 0 || (p1.item.name > p2.item.name) ? 1 : (p1.item.name < p2.item.name) ? -1 : 0);
-
-        if (checkForSortList(list)) {
-            list.sort((p1, p2) => (p1.drop < p2.drop) ? 1 : (p1.drop > p2.drop) ? -1 : 0 || (p1.item.name < p2.item.name) ? 1 : (p1.item.name > p2.item.name) ? -1 : 0);
+        if (list.length <= 0) {
+            throw new emptyList('The list is empty')
         }
 
-    } else if (sort === 'dateSort') {
-        sortVariable = sort;
+        // sort here
         list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date) ? -1 : 0);
 
-        if (checkForSortList(list)) {
-            list.sort((p1, p2) => (p1.date < p2.date) ? 1 : (p1.date > p2.date) ? -1 : 0);
+        if (sort === 'nameSort') {
+            sortVariable = sort;
+
+            list.sort((p1, p2) => (p1.drop > p2.drop) ? 1 : (p1.drop < p2.drop) ? -1 : 0 || (p1.item.name > p2.item.name) ? 1 : (p1.item.name < p2.item.name) ? -1 : 0);
+
+            if (checkForSortList(list)) {
+                list.sort((p1, p2) => (p1.drop < p2.drop) ? 1 : (p1.drop > p2.drop) ? -1 : 0 || (p1.item.name < p2.item.name) ? 1 : (p1.item.name > p2.item.name) ? -1 : 0);
+            }
+
+        } else if (sort === 'dateSort') {
+            sortVariable = sort;
+            list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date) ? -1 : 0);
+
+            if (checkForSortList(list)) {
+                list.sort((p1, p2) => (p1.date < p2.date) ? 1 : (p1.date > p2.date) ? -1 : 0);
+            }
+
+        } else if (sort === 'quantitySort') {
+            sortVariable = sort;
+            list.sort((p1, p2) => (Number(p1.quantity) > Number(p2.quantity)) ? 1 : (Number(p1.quantity) < Number(p2.quantity)) ? -1 : 0);
+
+            if (checkForSortList(list)) {
+                list.sort((p1, p2) => (Number(p1.quantity) < Number(p2.quantity)) ? 1 : (Number(p1.quantity) > Number(p2.quantity)) ? -1 : 0);
+            }
         }
 
-    } else if (sort === 'quantitySort') {
-        sortVariable = sort;
-        list.sort((p1, p2) => (Number(p1.quantity) > Number(p2.quantity)) ? 1 : (Number(p1.quantity) < Number(p2.quantity)) ? -1 : 0);
+        // console.log('in run ' + sortVariable)
+        document.querySelector('.collection-list').innerHTML = '';
 
-        if (checkForSortList(list)) {
-            list.sort((p1, p2) => (Number(p1.quantity) < Number(p2.quantity)) ? 1 : (Number(p1.quantity) > Number(p2.quantity)) ? -1 : 0);
-        }
+        list.map((listItem, index) =>
+            createItem(listItem, index)
+        );
+
+        //clear locations
+        document.querySelector('.locations-list').innerHTML = '';
+
+        // output the different locations to search
+        list.forEach(listItem => getLocations(listItem));
+
+    } catch (e) {
+        // console.log('list catch')
+        document.querySelector('#collection-items').innerHTML = '';
+        createElement('h2', `Looks like you don't have any items. Add some to start your list!`, '#main-collection-header', 'after');
     }
-
-    // console.log('in run ' + sortVariable)
-    document.querySelector('.collection-list').innerHTML = '';
-
-    list.map((listItem, index) =>
-        createItem(listItem, index)
-    );
-
-    //clear locations
-    document.querySelector('.locations-list').innerHTML = '';
-
-    // output the different locations to search
-    list.forEach(listItem => getLocations(listItem));
 }
 
 // function that works for 1 item to output it on page
@@ -233,20 +231,4 @@ function checkForSortList(list) {
     } else {
         return false;
     }
-}
-
-function listSortSelectors() {
-
-    document.querySelector('#list-name-sort').addEventListener('click', () => {
-        // console.log('name sort')
-        renderCollectionList('nameSort');
-    })
-
-    document.querySelector('#list-date-sort').addEventListener('click', () => {
-        renderCollectionList('dateSort');
-    })
-
-    document.querySelector('#list-quantity-sort').addEventListener('click', () => {
-        renderCollectionList('quantitySort');
-    })
 }
