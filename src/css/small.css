@@ -320,6 +320,10 @@ hr {
 
 #item-page p {
     font-size: 1.2em;
+    padding-left: 20px;
+}
+#item-page form {
+    padding-left: 20px;
 }
 
 
