@@ -1,44 +1,49 @@
 import { getLocalStorage, createElement, setLocalStorage } from './utils';
 
-let sortVariable;
+// let sortVariable;
 // console.log('in outer ' + sortVariable)
 
-export function renderCollectionList(sort) {
+export function renderCollectionList() {
 
     try {
 
+        let sort;
         const list = getLocalStorage('list');
-        // console.log(sort)
 
         if (list.length <= 0) {
             throw new emptyList('The list is empty')
         }
 
-        // sort here
+        // default sort by date
         list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date) ? -1 : 0);
 
-        if (sort === 'nameSort') {
-            sortVariable = sort;
+        // set sort from local storage if it exists
+        if (getLocalStorage('sort') !== null) {
+            // console.log('is not null')
+            sort = getLocalStorage('sort');
+        } else {
+            // console.log('is null')
+            sort = {'type' : 'noSort', 'order' : 'noOrder'};
+        }
 
-            list.sort((p1, p2) => (p1.drop > p2.drop) ? 1 : (p1.drop < p2.drop) ? -1 : 0 || (p1.item.name > p2.item.name) ? 1 : (p1.item.name < p2.item.name) ? -1 : 0);
-
-            if (checkForSortList(list)) {
+        if (sort.type === 'nameSort') {
+            if (sort.order === 'forwards') {
+                list.sort((p1, p2) => (p1.drop > p2.drop) ? 1 : (p1.drop < p2.drop) ? -1 : 0 || (p1.item.name > p2.item.name) ? 1 : (p1.item.name < p2.item.name) ? -1 : 0);
+            } else {
                 list.sort((p1, p2) => (p1.drop < p2.drop) ? 1 : (p1.drop > p2.drop) ? -1 : 0 || (p1.item.name < p2.item.name) ? 1 : (p1.item.name > p2.item.name) ? -1 : 0);
             }
+        } else if (sort.type === 'dateSort') {
 
-        } else if (sort === 'dateSort') {
-            sortVariable = sort;
-            list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date) ? -1 : 0);
-
-            if (checkForSortList(list)) {
+            if (sort.order === 'forwards') {
+                list.sort((p1, p2) => (p1.date > p2.date) ? 1 : (p1.date < p2.date) ? -1 : 0);
+            } else {
                 list.sort((p1, p2) => (p1.date < p2.date) ? 1 : (p1.date > p2.date) ? -1 : 0);
             }
 
-        } else if (sort === 'quantitySort') {
-            sortVariable = sort;
-            list.sort((p1, p2) => (Number(p1.quantity) > Number(p2.quantity)) ? 1 : (Number(p1.quantity) < Number(p2.quantity)) ? -1 : 0);
-
-            if (checkForSortList(list)) {
+        } else if (sort.type === 'quantitySort') {
+            if (sort.order === 'forwards') {
+                list.sort((p1, p2) => (Number(p1.quantity) > Number(p2.quantity)) ? 1 : (Number(p1.quantity) < Number(p2.quantity)) ? -1 : 0);
+            } else {
                 list.sort((p1, p2) => (Number(p1.quantity) < Number(p2.quantity)) ? 1 : (Number(p1.quantity) > Number(p2.quantity)) ? -1 : 0);
             }
         }
@@ -90,7 +95,6 @@ function createItem(listItem, index) {
     }
 
     // quantity
-
     createElement('span', '-', `#quantity-${index}`, 'append', 'list-add', `minus-${index}`);
     createElement('input', '', `#quantity-${index}`, 'append', 'list-number', `quantity-${index}-number`);
     let quantity = document.querySelector(`#quantity-${index}-number`);
@@ -115,7 +119,7 @@ function addToQuantity(listItem, index) {
 
     removeFromList(listItem, false);
     setLocalStorage('list', listItem);
-    renderCollectionList(sortVariable);
+    renderCollectionList();
 }
 
 function removeFromQuantity(listItem) {
@@ -129,7 +133,7 @@ function removeFromQuantity(listItem) {
     } else {
         removeFromList(listItem, false);
         setLocalStorage('list', listItem);
-        renderCollectionList(sortVariable);
+        renderCollectionList();
     }
 }
 
@@ -144,11 +148,11 @@ function updateQuantity(listItem, index) {
 
         if (listItem.quantity > 0) {
             setLocalStorage('list', listItem);
-            renderCollectionList(sortVariable);
+            renderCollectionList();
         }
 
     } else {
-        renderCollectionList(sortVariable);
+        renderCollectionList();
     }
 }
 
@@ -161,7 +165,7 @@ function removeFromList(listItem, reload) {
     localStorage.setItem(key, JSON.stringify(currentArray));
 
     if (reload) {
-        renderCollectionList(sortVariable);
+        renderCollectionList();
     }
 }
 
@@ -214,21 +218,17 @@ function outputLocation(listItem, location, noLocationValue) {
     }
 }
 
-function checkForSortList(list) {
-    const firstItemName = document.getElementsByClassName('title')[0].innerHTML;
-    const firstItemQuantity = Number(document.querySelector('#quantity-0-number').value);
+export function setSort(sortType) {
+    try {
+        const sort = getLocalStorage('sort');
 
-    let sortFirstItemName;
-    if (list[0].drop) {
-        sortFirstItemName = `${list[0].item.name} - ${list[0].drop}`;
-    } else {
-        sortFirstItemName = list[0].item.name;
-    }
-    const sortFirstItemQuantity = Number(list[0].quantity);
+        if (sort.order !== 'backwards' && sort.type === sortType) {
+            setLocalStorage('sort', { 'type': sortType, 'order': 'backwards' });
+        } else {
+            setLocalStorage('sort', { 'type': sortType, 'order': 'forwards' });
+        }
 
-    if (0 === firstItemName.localeCompare(sortFirstItemName) && firstItemQuantity === sortFirstItemQuantity) {
-        return true;
-    } else {
-        return false;
+    } catch (e) {
+        setLocalStorage('sort', { 'type': sortType, 'order': 'forwards' });
     }
 }
