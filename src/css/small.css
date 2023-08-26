@@ -40,6 +40,7 @@ body {
 #logo {
     width: 4em;
     height: 4em;
+    border-radius: 25px;
 }
 
 header {
@@ -74,17 +75,17 @@ header h1 {
 }
 
 .menu {
-  transform: translate3d(-150px, 0, 0);
-  transition: transform 0.35s;
+    transform: translate3d(-150px, 0, 0);
+    transition: transform 0.35s;
 }
 
 .menu.show {
-  background: #fff; 
-  width: 150px;
-  height: 100%; 
-  position: absolute;
-  right: -150px;
-  top: 0;
+    background: #fff;
+    width: 150px;
+    height: 100%;
+    position: absolute;
+    right: -150px;
+    top: 0;
 }
 
 #menu-list.hide {
@@ -100,19 +101,22 @@ header h1 {
     padding: 5px;
     margin-top: 5px;
 }
+
 /* Add a grey background color to dropdown links on hover */
 .menu li:hover {
     background-color: var(--gray);
 }
 
-.menu li:last-child:hover{
+.menu li:last-child:hover {
     background-color: white !important;
 }
+
 .menu li form {
     padding: 0;
     padding-left: 4px;
     margin: 0;
 }
+
 .menu li input {
     max-width: 100px;
     border: 1px solid black;
@@ -136,7 +140,7 @@ header h1 {
     width: 18px;
     height: 18px;
     margin-left: 2px;
-    filter: invert(1);  
+    filter: invert(1);
 }
 
 /* active category page */
@@ -170,13 +174,15 @@ label.menu-toggle {
     height: 50px;
     padding: 0;
     background-color: var(--blue);
-    cursor: pointer;    
+    cursor: pointer;
 }
+
 /* when hid */
 label.menu-toggle.hide {
     right: 0;
     top: -26px;
 }
+
 /* when shown */
 label.menu-toggle.show {
     right: 150px;
@@ -243,18 +249,36 @@ hr {
     padding: 0;
 }
 
-.card-list .card-id{
+.card-list .card-id {
     margin-top: -15px;
 }
 
 .card-list li {
-
     border: 1px solid black;
     text-align: center;
     padding: .5em;
     max-width: 200px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px var(--eerie-black);
+    background-color: white;
+    margin: 5px;
 
+    & img {
+        height: 150px;
+        width: auto;
+    }
 }
+
+.card-list li:hover {
+    box-shadow: 7px 7px 7px var(--eerie-black);
+    margin: 0px;
+
+    & img {
+        height: 155px;
+        width: auto;
+    }
+}
+
 
 .card-list li a {
     text-decoration: none;
@@ -262,33 +286,41 @@ hr {
     color: black;
 }
 
-.card img {
-    height: 150px;
-    width: auto;
-}
-
 /* category page */
 
 #category-page .card-list li {
-
     border: 1px solid black;
     text-align: center;
     padding: .5em;
-    max-width: 250px;
+    max-width: 245px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px var(--eerie-black);
+    margin: 4px;
+
+    & .card img {
+        height: 195px;
+        width: 195px;
+    }
+
+    & .card-title {
+        text-transform: capitalize;
+        max-width: 200px;
+    }
+}
+
+#category-page .card-list li:hover {
+    margin: 0px;
+    box-shadow: 7px 7px 7px var(--eerie-black);
+
+    & .card img {
+        height: 200px;
+        width: 200px;
+    }
 }
 
 .title {
     text-transform: capitalize;
-}
-
-#category-page .card img {
-    height: 200px;
-    width: 200px;
-}
-
-#category-page .card-title {
-    text-transform: capitalize;
-    max-width: 200px;
 }
 
 #category-page .card .locations {
@@ -322,6 +354,7 @@ hr {
     font-size: 1.2em;
     padding-left: 20px;
 }
+
 #item-page form {
     padding-left: 20px;
 }
@@ -357,7 +390,8 @@ hr {
     text-align: center;
 }
 
-#list-page .list-add, #list-page .list-minus {
+#list-page .list-add,
+#list-page .list-minus {
     color: white;
     font-weight: 900;
     border: 1px solid black;
@@ -400,7 +434,7 @@ hr {
     text-transform: capitalize;
 }
 
-#list-page form{
+#list-page form {
     display: grid;
     grid-template-columns: 75px 185px;
     padding-left: 20px;
@@ -409,14 +443,14 @@ hr {
 
 }
 
-#list-page form button{
+#list-page form button {
     grid-column: 1/3;
     margin-bottom: 15px;
 }
 
 #list-page form input {
     max-width: 175px !important;
-    
+
     margin-right: 5px;
     margin-left: 5px;
 }
