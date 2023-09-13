@@ -1,7 +1,7 @@
 import { createCategoryCards, setActiveCategory, handleSearch, handleEmpty, categorySortSelectors } from './category.mjs';
 import { getParam, menuClick, setHamActiveCategory, searchForm } from './utils';
 
-const category = getParam('category');
+const category = getParam('category'); 
 const search = getParam('search');
 
 if (category) {

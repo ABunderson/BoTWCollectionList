@@ -204,9 +204,7 @@ label.menu-toggle.show {
     display: none;
 }
 
-/* Footer rules */
 /* Footer */
-
 footer {
     background-color: var(--blue);
     padding: 2em;
@@ -228,7 +226,6 @@ button {
 }
 
 /* Home page */
-
 .hero {
     max-width: 100%;
 }
@@ -239,7 +236,6 @@ hr {
 }
 
 /* Card list */
-
 .card-list {
     display: flex;
     flex-flow: row wrap;
@@ -358,7 +354,6 @@ hr {
 #item-page form {
     padding-left: 20px;
 }
-
 
 #item-page form label,
 #item-page form input {

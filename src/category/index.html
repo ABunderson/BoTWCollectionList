@@ -15,16 +15,22 @@
 <body>
     <header>
         <div id="header-start">
+
             <a href="/index.html">
                 <img src="/images/BoTW.png" id="logo" alt="BoTW Collection logo. A scroll with items to collect on it.">
             </a>
+
             <a href="/index.html">
                 <h1>BoTW Collection</h1>
             </a>
+
             <input type="checkbox" id="menu" name="menu" class="menu-checkbox hide" checked>
+
             <div class="menu hide">
+
                 <label class="menu-toggle hide" for="menu" id="hamburger"><img src="/images/hamburger.png"
                         alt="A hamburger menu. Icon from icons8"></label>
+
                 <ul id="menu-list" class="hide">
                     <li class="creatures"><a href="/category/index.html?category=creatures">Creatures</a></li>
                     <li class="equipment"><a href="/category/index.html?category=equipment">Equipment</a></li>
@@ -44,11 +50,14 @@
 
             </div>
         </div>
+
         <div id="header-end">
+
             <div class="dropdown">
                 <button class="dropbtn">Categories
                     <i class="fa fa-caret-down"></i>
                 </button>
+
                 <div class="dropdown-content">
                     <a class="creatures" href="/category/index.html?category=creatures">Creatures</a>
                     <a class="equipment" href="/category/index.html?category=equipment">Equipment</a>
@@ -57,12 +66,14 @@
                     <a class="treasure" href="/category/index.html?category=treasure">Treasure</a>
                 </div>
             </div>
+
             <form name="search" id="search">
                 <input required type="text" name="searchValue" placeholder="Search">
                 <button id="searchButton" onclick="window.location.href='#';" type="submit">
                     <img src="/images/search.svg" alt="search icon from iconfinder.com">
                 </button>
             </form>
+
             <a href="/list/index.html">
                 <img src="/images/ancient-scroll.png" id="scroll"
                     alt="Scroll icons created by Freepik - Flaticon at https://www.flaticon.com/free-icons/scroll">
@@ -71,14 +82,18 @@
     </header>
 
     <main id="category-page" class="content">
+        
         <h1 class="title" id="category-title"></h1>
+
         <div id="category-items">
-        <h2>Sort:</h2>
-        <button id="category-name-sort">Name</button>
-        <button id="category-id-sort">Id</button>
-        <ul class="card-list"></ul>
+            <h2>Sort:</h2>
+            <button id="category-name-sort">Name</button>
+            <button id="category-id-sort">Id</button>
+            <ul class="card-list"></ul>
         </div>
+
     </main>
+
     <footer>
         <div id="footer-flex">
             <div>

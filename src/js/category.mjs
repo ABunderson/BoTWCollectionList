@@ -45,9 +45,9 @@ export async function handleSearch(search, selector, sort) {
 
     // get list of all items
     let listToSearch = await getAllItems();
-
     let numberCheck = Number(search);
     let uniqueList = [];
+
     if (typeof numberCheck == 'number' && !isNaN(numberCheck)) {
         let numberList = [];
         // console.log(listToSearch)
@@ -61,8 +61,8 @@ export async function handleSearch(search, selector, sort) {
         let searchDrop = [];
 
         searchedList = listToSearch.data.filter(item => item.name.includes(search));
-
         searchDrop = listToSearch.data.filter(item => filterWithDrops(item, search));
+
         // console.log(searchDrop)
         const addedLists = searchedList.concat(searchDrop);
         uniqueList = [...new Set(addedLists)];
@@ -186,6 +186,7 @@ export function categorySortSelectors(category, search) {
     document.querySelector('#category-name-sort').addEventListener('click', () => {
         if (category) {
             createCategoryCards(category, '.card-list', 'nameSort');
+            
         } else if (search) {
             handleSearch(search, '.card-list', 'nameSort');
         }
@@ -194,6 +195,7 @@ export function categorySortSelectors(category, search) {
     document.querySelector('#category-id-sort').addEventListener('click', () => {
         if (category) {
             createCategoryCards(category, '.card-list', 'idSort');
+
         } else if (search) {
             handleSearch(search, '.card-list', 'idSort');
         }
